@@ -1,0 +1,49 @@
+<!-- Bouton de bascule -->
+<button class="btn btn-primary" (click)="toggleSidebar()">
+  Toggle Sidebar
+</button>
+
+<!-- Conteneur de la sidebar avec Angular Material -->
+<mat-sidenav-container class="sidenav-container">
+  <!-- Sidebar -->
+  <mat-sidenav #sidenav mode="side" [opened]="isSidebarOpen">
+    <ul class="nav-menu">
+      <li *ngFor="let subject of subjects">
+        <a
+          [routerLink]="['/classes', classId, 'subjects', subject.id]"
+          [attr.aria-disabled]="!subject.active"
+          >{{ subject.name }}</a
+        >
+        <ul
+          class="nav-menu"
+          *ngIf="subject.children && subject.children.length > 0"
+        >
+          <li *ngFor="let lesson of subject.children">
+            <a
+              [routerLink]="[
+                '/classes',
+                classId,
+                'subjects',
+                subject.id,
+                'lesson',
+                lesson.id
+              ]"
+              [attr.aria-disabled]="!lesson.active"
+              >{{ lesson.name }}</a
+            >
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <mat-nav-list>
+      <a mat-list-item href="#">Item 1</a>
+      <a mat-list-item href="#">Item 2</a>
+      <a mat-list-item href="#">Item 3</a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- Contenu principal -->
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

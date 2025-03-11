@@ -1,0 +1,37 @@
+name: Deploy Angular to GitHub Pages TEST 2
+
+on:
+  push:
+    branches:
+      - master # Exécuter le build à chaque push sur la branche master
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v3
+
+      - name: Afficher la structure des dossiers
+        run: ls -R # Affiche récursivement la structure des répertoires
+
+      - name: Naviguer vers le dossier `front`
+        run: cd front # Naviguer dans le sous-dossier où se trouve `package.json`
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Installer les dépendances
+        run: cd front && npm install # Maintenant, il va trouver `package.json` dans le sous-dossier
+
+      - name: Construire le projet Angular
+        run: ng build --output-path=dist --base-href=/funEduc/ # Assurez-vous que `base-href` est correct pour un sous-dossier
+
+      - name: Déployer sur GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: dist/front # Spécifiez le dossier de sortie du build
