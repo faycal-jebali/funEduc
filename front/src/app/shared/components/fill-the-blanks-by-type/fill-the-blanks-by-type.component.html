@@ -1,0 +1,59 @@
+<div class="exercise-container">
+  <div *ngIf="successAnimation" class="confetti">🎉 Félicitations ! 🎊</div>
+
+  <form [formGroup]="exerciseForm">
+    <div *ngFor="let ex of exercises; let i = index" class="exercise">
+      <p *ngIf="ex.type !== 'matching' && ex.sentence" class="sentence">
+        <ng-container *ngIf="ex.type === 'fill-in-the-blank'">
+          {{ ex.sentence.split("______")[0] }}
+          <input type="text" [formControlName]="'answer' + i" />
+          {{ ex.sentence.split("______")[1] }}
+        </ng-container>
+        <ng-container *ngIf="ex.type === 'multiple-choice'">
+          {{ ex.sentence.replace("______", "______") }}
+        </ng-container>
+      </p>
+
+      <div *ngIf="ex.type === 'multiple-choice'" class="options">
+        <button
+          *ngFor="let option of ex.options"
+          type="button"
+          (click)="exerciseForm.get('answer' + i)?.setValue(option)"
+          [class.selected]="exerciseForm.get('answer' + i)?.value === option"
+        >
+          {{ option }}
+        </button>
+      </div>
+
+      <!-- Exercice d'association (Matching) avec Reactive Forms -->
+      <div
+        *ngIf="ex.type === 'matching'"
+        class="matching-container"
+        [formGroup]="getMatchingGroup(i)"
+      >
+        <div class="matching-pair">
+          <div *ngFor="let key of ex.correctAnswer | keyvalue">
+            <span>{{ key.key }}</span>
+            <select [formControlName]="key.key">
+              <option *ngFor="let option of ex.options" [value]="option">
+                {{ option }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <p class="feedback">{{ feedback["answer" + i] }}</p>
+
+      <p
+        *ngIf="showCorrection && feedback['answer' + i] === '❌ Oups !'"
+        class="correction"
+      >
+        ✅ Bonne réponse : <strong>{{ ex.correctAnswer | json }}</strong>
+      </p>
+    </div>
+
+    <button type="button" (click)="checkAnswers()">✅ Valider</button>
+    <button type="button" (click)="showCorrections()">📖 Corriger</button>
+  </form>
+</div>

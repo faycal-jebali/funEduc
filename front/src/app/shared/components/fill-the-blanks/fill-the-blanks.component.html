@@ -1,0 +1,36 @@
+<div class="exercise-container">
+  <!-- Animation de réussite -->
+  <div *ngIf="successAnimation" class="confetti">
+    🎉 🎊 🎈 Félicitations ! 🎈 🎊 🎉
+  </div>
+
+  <form [formGroup]="exerciseForm">
+    <div *ngFor="let ex of exercises; let i = index" class="exercise">
+      <p class="sentence" *ngIf="ex.sentence">
+        {{ ex.sentence.replace("______", "______") }}
+      </p>
+      <div class="options">
+        <button
+          *ngFor="let option of ex.options"
+          type="button"
+          (click)="exerciseForm.get('answer' + i)?.setValue(option)"
+          [class.selected]="exerciseForm.get('answer' + i)?.value === option"
+        >
+          {{ option }}
+        </button>
+      </div>
+      <p class="feedback">{{ feedback["answer" + i] }}</p>
+
+      <!-- Correction affichée -->
+      <p
+        *ngIf="showCorrection && feedback['answer' + i] === '❌ Oups !'"
+        class="correction"
+      >
+        ✅ Bonne réponse : <strong>{{ ex.correctAnswer }}</strong>
+      </p>
+    </div>
+
+    <button type="button" (click)="checkAnswers()">✅ Valider</button>
+    <button type="button" (click)="showCorrections()">📖 Corriger</button>
+  </form>
+</div>
