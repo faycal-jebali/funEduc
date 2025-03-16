@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Exercise } from '../../interfaces/exercice';
+import { ExerciceItem } from '../../interfaces/exercices.new';
 
 @Component({
   selector: 'app-fill-the-blanks-by-type',
@@ -16,7 +17,7 @@ import { Exercise } from '../../interfaces/exercice';
   styleUrls: ['./fill-the-blanks-by-type.component.css'],
 })
 export class FillTheBlanksByTypeComponent implements OnInit {
-  @Input() exercises: Exercise[] = [];
+  @Input() exercices: ExerciceItem[] = [];
 
   exerciseForm: FormGroup;
   feedback: { [key: string]: string } = {};
@@ -28,17 +29,21 @@ export class FillTheBlanksByTypeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.exercises.forEach((exercise, index) => {
-      if (exercise.type === 'matching') {
-        const matchGroup = this.fb.group({});
-        Object.keys(exercise.correctAnswer).forEach((key) => {
-          matchGroup.addControl(key, this.fb.control(null));
-        });
-        this.exerciseForm.addControl('answer' + index, matchGroup);
-      } else {
-        this.exerciseForm.addControl('answer' + index, this.fb.control(null));
-      }
-    });
+    if (this.exercices?.length && this.exercices?.length > 0) {
+      this.exercices?.forEach((exercise: ExerciceItem, index) => {
+        if (exercise.type === 'matching') {
+          const matchGroup = this.fb.group({});
+          Object.keys(exercise.correct_answer).forEach((key) => {
+            matchGroup.addControl(key, this.fb.control(null));
+          });
+          this.exerciseForm.addControl('answer' + index, matchGroup);
+        } else {
+          this.exerciseForm.addControl('answer' + index, this.fb.control(null));
+        }
+      });
+    } else {
+      console.log('liste exercices vide!');
+    }
   }
 
   getMatchingGroup(index: number): FormGroup {
@@ -47,50 +52,50 @@ export class FillTheBlanksByTypeComponent implements OnInit {
 
   checkAnswers() {
     let allCorrect = true;
+    if (this.exercices?.length && this.exercices?.length > 0) {
+      this.exercices.forEach((exercise, index) => {
+        if (
+          exercise.type === 'matching' &&
+          typeof exercise.correct_answer === 'object'
+        ) {
+          let correctPairs = 0;
 
-    this.exercises.forEach((exercise, index) => {
-      if (
-        exercise.type === 'matching' &&
-        typeof exercise.correctAnswer === 'object'
-      ) {
-        let correctPairs = 0;
+          Object.keys(exercise.correct_answer).forEach((key) => {
+            const userAnswer = this.exerciseForm.get([
+              'answer' + index,
+              key,
+            ])?.value;
 
-        Object.keys(exercise.correctAnswer).forEach((key) => {
-          const userAnswer = this.exerciseForm.get([
-            'answer' + index,
-            key,
-          ])?.value;
-
-          if (
-            typeof exercise.correctAnswer === 'object' &&
-            exercise.correctAnswer !== null &&
-            key in exercise.correctAnswer
-          ) {
             if (
-              userAnswer ===
-              (exercise.correctAnswer as { [key: string]: string })[key]
+              typeof exercise.correct_answer === 'object' &&
+              exercise.correct_answer !== null &&
+              key in exercise.correct_answer
             ) {
-              correctPairs++;
+              if (
+                userAnswer ===
+                (exercise.correct_answer as { [key: string]: string })[key]
+              ) {
+                correctPairs++;
+              }
             }
-          }
-        });
+          });
 
-        this.feedback['answer' + index] =
-          correctPairs === Object.keys(exercise.correctAnswer).length
-            ? '✅ Bravo !'
-            : '❌ Oups !';
-        if (correctPairs !== Object.keys(exercise.correctAnswer).length)
-          allCorrect = false;
-      } else {
-        const userAnswer = this.exerciseForm.get('answer' + index)?.value;
-        this.feedback['answer' + index] =
-          userAnswer === exercise.correctAnswer ? '✅ Bravo !' : '❌ Oups !';
+          this.feedback['answer' + index] =
+            correctPairs === Object.keys(exercise.correct_answer).length
+              ? '✅ Bravo !'
+              : '❌ Oups !';
+          if (correctPairs !== Object.keys(exercise.correct_answer).length)
+            allCorrect = false;
+        } else {
+          const userAnswer = this.exerciseForm.get('answer' + index)?.value;
+          this.feedback['answer' + index] =
+            userAnswer === exercise.correct_answer ? '✅ Bravo !' : '❌ Oups !';
 
-        if (this.feedback['answer' + index] !== '✅ Bravo !')
-          allCorrect = false;
-      }
-    });
-
+          if (this.feedback['answer' + index] !== '✅ Bravo !')
+            allCorrect = false;
+        }
+      });
+    }
     this.successAnimation = allCorrect;
   }
 

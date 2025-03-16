@@ -18,7 +18,10 @@ import {
   exercice1,
 } from 'src/app/shared/mocks/ce1/orthographe/adjectifs.mock';
 import { filter } from 'rxjs';
-import { ExerciseSection } from 'src/app/shared/interfaces/exercice';
+
+import { ExerciceService } from 'src/app/shared/services/exercices.service';
+import { ExerciceSectionService } from 'src/app/shared/services/exercices-section.service';
+import { ExerciceSectionItem } from 'src/app/shared/interfaces/exercices.new';
 
 @Component({
   selector: 'app-subject-detail',
@@ -31,20 +34,25 @@ export class SubjectDetailComponent implements OnInit {
   classId: number;
   subjectId: number;
   lessonId: number;
-  subject: CategoryItem | null;
-  lesson: CategoryItem | null;
-  conjugaisonList: ExerciseSection[] = [
+  // subject: CategoryItem | null;
+  exercicesSectionList: ExerciceSectionItem[] = [];
+  /*conjugaisonList: ExerciceSectionItem[] = [
     conjugaisonEx1,
     conjugaisonEx2,
     conjugaisonEx3,
   ];
-  orthographeList: ExerciseSection[] = [AdjectifsExercices];
+  orthographeList: ExerciceSectionItem[] = [AdjectifsExercices];*/
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly exercicesService: ExerciceService,
+    private readonly exerciceSectionService: ExerciceSectionService
+  ) {
     this.classId = Number(this.route.snapshot.paramMap.get('classId'));
     this.subjectId = Number(this.route.snapshot.paramMap.get('subjectId'));
     this.lessonId = Number(this.route.snapshot.paramMap.get('lessonId'));
-
+    /*
     this.subject = UTILS.findById<CategoryItem>(subjectsList, this.subjectId);
     this.lesson = UTILS.findById<CategoryItem>(subjectsList, this.lessonId);
 
@@ -55,6 +63,16 @@ export class SubjectDetailComponent implements OnInit {
     if (this.lesson?.alias === 'orthographe') {
       this.lesson.exercices = this.orthographeList;
     }
+*/
+    this.exerciceSectionService.getExercicesBySection().subscribe({
+      next: (data: ExerciceSectionItem[]) => {
+        console.log('all section with exercices data : ', data);
+        this.exercicesSectionList = data;
+      },
+      error: (error) => {
+        console.log('all section with exercices error : ', error);
+      },
+    });
   }
 
   ngOnInit(): void {
@@ -79,7 +97,7 @@ export class SubjectDetailComponent implements OnInit {
       this.lessonId
     );
     // Ajoutez ici la logique pour appeler votre service et charger les données
-
+    /*
     this.subject = UTILS.findById<CategoryItem>(subjectsList, this.subjectId);
     this.lesson = UTILS.findById<CategoryItem>(subjectsList, this.lessonId);
 
@@ -90,5 +108,6 @@ export class SubjectDetailComponent implements OnInit {
     if (this.lesson?.alias === 'orthographe') {
       this.lesson.exercices = this.orthographeList;
     }
+      */
   }
 }

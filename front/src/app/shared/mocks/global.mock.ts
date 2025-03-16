@@ -1,4 +1,4 @@
-import { ExerciseSection } from '../interfaces/exercice';
+import { ExerciceSectionItem } from '../interfaces/exercice';
 
 export interface CategoryItem {
   id: number;
@@ -6,7 +6,7 @@ export interface CategoryItem {
   name: string;
   active: boolean;
   children?: CategoryItem[];
-  exercices?: ExerciseSection[];
+  exercices?: ExerciceSectionItem[];
 }
 
 export interface ClasseItem {

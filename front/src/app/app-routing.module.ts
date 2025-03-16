@@ -3,12 +3,28 @@ import { RouterModule, Routes } from '@angular/router';
 import { FillTheBlanksComponent } from './shared/components/fill-the-blanks/fill-the-blanks.component';
 import { FillTheBlanksByTypeComponent } from './shared/components/fill-the-blanks-by-type/fill-the-blanks-by-type.component';
 import { AppComponent } from './app.component';
+import { SectionFormComponent } from './pages/exercices-section/section-form/section-form.component';
+import { ExerciceFormComponent } from './pages/exercices-section/exercice-form/exercice-form.component';
 
 export const routes: Routes = [
   { path: '', component: AppComponent }, // Page d'accueil
   { path: 'task', component: FillTheBlanksComponent },
   { path: 'task-by-type', component: FillTheBlanksByTypeComponent },
   // { path: '', redirectTo: 'classes', pathMatch: 'full' },
+  {
+    path: 'section-form',
+    loadComponent: () =>
+      import(
+        './pages/exercices-section/section-form/section-form.component'
+      ).then((m) => m.SectionFormComponent),
+  },
+  {
+    path: 'exercice-form',
+    loadComponent: () =>
+      import(
+        './pages/exercices-section/exercice-form/exercice-form.component'
+      ).then((m) => m.ExerciceFormComponent),
+  },
   {
     path: 'classes',
     loadComponent: () =>

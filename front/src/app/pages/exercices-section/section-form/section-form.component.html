@@ -1,0 +1,24 @@
+<p>section-form works!</p>
+<!-- src/app/exercices/exercices-section-create/exercices-section-create.component.html -->
+<div class="create-section">
+  <h2>Créer une Section</h2>
+  <form [formGroup]="sectionForm" (ngSubmit)="createSection()">
+    <label for="title">Titre de la Section:</label>
+    <input id="title" formControlName="title" type="text" />
+    <div
+      *ngIf="
+        sectionForm.controls['title'].invalid &&
+        sectionForm.controls['title'].touched
+      "
+    >
+      Le titre est requis.
+    </div>
+
+    <label for="description">Description (facultatif):</label>
+    <textarea id="description" formControlName="description"></textarea>
+
+    <button type="submit" [disabled]="sectionForm.invalid">
+      Créer Section
+    </button>
+  </form>
+</div>

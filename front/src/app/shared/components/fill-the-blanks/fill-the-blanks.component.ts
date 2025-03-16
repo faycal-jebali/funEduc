@@ -13,7 +13,7 @@ import { Exercise } from '../../interfaces/exercice';
 })
 export class FillTheBlanksComponent {
   exerciseForm!: FormGroup;
-  exercises: Exercise[] = [
+  exercices: Exercise[] = [
     {
       sentence: 'Le chat _______ sur le canapé.',
       options: ['mange', 'manger', 'mangé'],
@@ -45,7 +45,7 @@ export class FillTheBlanksComponent {
       correctAnswer: 'fais',
     },
   ];
-  exercises2: Exercise[] = [
+  exercices2: Exercise[] = [
     {
       sentence: "L'enfant _______ les pieds nus.",
       options: ['marchait', 'buvaient', 'perdent'],
@@ -78,7 +78,7 @@ export class FillTheBlanksComponent {
 
   ngOnInit() {
     this.exerciseForm = this.fb.group({});
-    this.exercises.forEach((_, index) => {
+    this.exercices.forEach((_, index) => {
       this.exerciseForm.addControl('answer' + index, this.fb.control(''));
     });
   }
@@ -95,7 +95,7 @@ export class FillTheBlanksComponent {
   checkAnswers() {
     this.showCorrection = false;
     let allCorrect = true;
-    this.exercises.forEach((ex, index) => {
+    this.exercices.forEach((ex, index) => {
       const userAnswer = this.exerciseForm.get('answer' + index)?.value;
       const isCorrect = userAnswer === ex.correctAnswer;
       this.feedback['answer' + index] = isCorrect ? '✅ Bravo !' : '❌ Oups !';

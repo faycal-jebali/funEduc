@@ -1,4 +1,7 @@
-import { Exercise, ExerciseSection } from 'src/app/shared/interfaces/exercice';
+import {
+  Exercise,
+  ExerciceSectionItem,
+} from 'src/app/shared/interfaces/exercice';
 
 export const ex1: Exercise[] = [
   {
@@ -130,17 +133,17 @@ export const ex3: Exercise[] = [
   },
 ];
 
-export const conjugaisonEx1: ExerciseSection = {
+export const conjugaisonEx1: ExerciceSectionItem = {
   title: 'Conjugaison 1',
   list: ex1,
 };
 
-export const conjugaisonEx2: ExerciseSection = {
+export const conjugaisonEx2: ExerciceSectionItem = {
   title: 'Conjugaison 2',
   list: ex2,
 };
 
-export const conjugaisonEx3: ExerciseSection = {
+export const conjugaisonEx3: ExerciceSectionItem = {
   title: 'Conjugaison 3',
   list: ex3,
 };

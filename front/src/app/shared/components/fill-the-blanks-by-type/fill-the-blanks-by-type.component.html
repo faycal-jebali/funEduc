@@ -2,15 +2,15 @@
   <div *ngIf="successAnimation" class="confetti">🎉 Félicitations ! 🎊</div>
 
   <form [formGroup]="exerciseForm">
-    <div *ngFor="let ex of exercises; let i = index" class="exercise">
-      <p *ngIf="ex.type !== 'matching' && ex.sentence" class="sentence">
+    <div *ngFor="let ex of exercices; let i = index" class="exercise">
+      <p *ngIf="ex.type !== 'matching' && ex.question" class="sentence">
         <ng-container *ngIf="ex.type === 'fill-in-the-blank'">
-          {{ ex.sentence.split("______")[0] }}
+          {{ ex.question.split("______")[0] }}
           <input type="text" [formControlName]="'answer' + i" />
-          {{ ex.sentence.split("______")[1] }}
+          {{ ex.question.split("______")[1] }}
         </ng-container>
         <ng-container *ngIf="ex.type === 'multiple-choice'">
-          {{ ex.sentence.replace("______", "______") }}
+          {{ ex.question.replace("______", "______") }}
         </ng-container>
       </p>
 
@@ -32,7 +32,7 @@
         [formGroup]="getMatchingGroup(i)"
       >
         <div class="matching-pair">
-          <div *ngFor="let key of ex.correctAnswer | keyvalue">
+          <div *ngFor="let key of ex.correct_answer | keyvalue">
             <span>{{ key.key }}</span>
             <select [formControlName]="key.key">
               <option *ngFor="let option of ex.options" [value]="option">
@@ -49,7 +49,7 @@
         *ngIf="showCorrection && feedback['answer' + i] === '❌ Oups !'"
         class="correction"
       >
-        ✅ Bonne réponse : <strong>{{ ex.correctAnswer | json }}</strong>
+        ✅ Bonne réponse : <strong>{{ ex.correct_answer | json }}</strong>
       </p>
     </div>
 

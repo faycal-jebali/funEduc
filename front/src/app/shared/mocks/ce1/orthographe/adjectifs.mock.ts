@@ -1,5 +1,8 @@
 import { Title } from '@angular/platform-browser';
-import { Exercise, ExerciseSection } from 'src/app/shared/interfaces/exercice';
+import {
+  Exercise,
+  ExerciceSectionItem,
+} from 'src/app/shared/interfaces/exercice';
 
 export const exercice1: Exercise[] = [
   {
@@ -74,7 +77,7 @@ export const exercice1: Exercise[] = [
   },
 ];
 
-export const AdjectifsExercices: ExerciseSection = {
+export const AdjectifsExercices: ExerciceSectionItem = {
   title: 'Adjectifs Qualificatifs',
   list: exercice1,
 };

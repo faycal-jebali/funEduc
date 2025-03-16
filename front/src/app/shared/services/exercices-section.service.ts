@@ -6,33 +6,25 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class ExerciceService {
+export class ExerciceSectionService {
   // private apiUrl = 'http://localhost:3000/api';
-  /*  private apiUrlBack =
-    'https://backend-8uu8kza53-creoxys-projects.vercel.app/api/exercices';*/
-
   private apiUrl = 'https://backend-teal-zeta.vercel.app/api';
   private apiKey = '01234567890';
 
   constructor(private http: HttpClient) {}
 
-  getExercices(): Observable<any> {
+  getExercicesBySection(): Observable<any> {
     let headers = new HttpHeaders();
     headers = headers.set('x-api-key', this.apiKey); // Ajouter la clé d'API
-    return this.http.get(`${this.apiUrl}/exercices`, { headers });
+    return this.http.get(`${this.apiUrl}/exercices-by-section`, { headers });
   }
 
-  // Créer un nouvel exercice
-  createExercise(exercise: {
-    type: string;
-    question: string;
-    correct_answer: string;
-    explanation?: string;
-    difficulty: string;
-    created_by: string;
-    section_id: string;
+  createSection(section: {
+    title: string;
+    description?: string;
+    created_by?: string;
   }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/exercices`, exercise, {
+    return this.http.post(`${this.apiUrl}/exercices-by-section`, section, {
       headers: new HttpHeaders().set('x-api-key', '01234567890'),
     });
   }
