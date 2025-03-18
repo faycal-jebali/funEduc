@@ -1,13 +1,13 @@
-<h2>Détails de la matière : {{ subject?.name }}: {{ lesson?.name }}</h2>
+<!--h2>Détails de la matière : {{ subject?.name }}: {{ lesson?.name }}</h2-->
 <mat-tab-group>
   <mat-tab
-    *ngFor="let exercices of lesson?.exercices; let index = index"
-    [label]="exercices.title || 'Exercies'"
+    *ngFor="let sectionItem of exercicesSectionList; let index = index"
+    [label]="sectionItem?.title || 'Exercies'"
   >
-    <h3>{{ exercices.title }}</h3>
+    <h3>{{ sectionItem?.title }}</h3>
 
     <app-fill-the-blanks-by-type
-      [exercises]="exercices.list"
+      [exercices]="sectionItem?.exercices || []"
     ></app-fill-the-blanks-by-type>
   </mat-tab>
 </mat-tab-group>

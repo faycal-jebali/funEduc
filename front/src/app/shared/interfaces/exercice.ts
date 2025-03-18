@@ -5,7 +5,7 @@ export interface Exercise {
   correctAnswer: string | { [key: string]: string }; // Clé-Valeur pour les associations
 }
 
-export interface ExerciseSection {
+export interface ExerciceSectionItem {
   title?: string;
   list: Exercise[];
 }

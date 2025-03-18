@@ -5,7 +5,7 @@
   </div>
 
   <form [formGroup]="exerciseForm">
-    <div *ngFor="let ex of exercises; let i = index" class="exercise">
+    <div *ngFor="let ex of exercices; let i = index" class="exercise">
       <p class="sentence" *ngIf="ex.sentence">
         {{ ex.sentence.replace("______", "______") }}
       </p>

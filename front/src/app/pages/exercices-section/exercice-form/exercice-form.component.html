@@ -1,0 +1,49 @@
+<div class="create-exercise">
+  <h2>Créer un Exercice</h2>
+  <form [formGroup]="exerciseForm" (ngSubmit)="createExercise()">
+    <label for="question">Question :</label>
+    <input id="question" formControlName="question" type="text" />
+
+    <label for="correct_answer">Réponse Correcte :</label>
+    <input id="correct_answer" formControlName="correct_answer" type="text" />
+
+    <label for="type">Type :</label>
+    <select id="type" formControlName="type">
+      <option value="fill-in-the-blank">Compléter les blancs</option>
+      <option value="multiple-choice">Choix multiples</option>
+    </select>
+
+    <!-- Gestion dynamique des options -->
+    <div *ngIf="exerciseForm.get('type')?.value === 'multiple-choice'">
+      <label>Options :</label>
+      <div formArrayName="options">
+        <div *ngFor="let option of options.controls; let i = index">
+          <input [formControlName]="i" type="text" />
+          <button type="button" (click)="removeOption(i)">❌</button>
+        </div>
+      </div>
+      <button type="button" (click)="addOption()">➕ Ajouter une option</button>
+    </div>
+
+    <label for="section">Section :</label>
+    <select id="section" formControlName="section_id">
+      <option *ngFor="let section of sections" [value]="section.id">
+        {{ section.title }}
+      </option>
+    </select>
+
+    <label for="difficulty">Difficulté :</label>
+    <select id="difficulty" formControlName="difficulty">
+      <option value="easy">Facile</option>
+      <option value="medium">Moyenne</option>
+      <option value="hard">Difficile</option>
+    </select>
+
+    <label for="explanation">Explication (facultatif) :</label>
+    <textarea id="explanation" formControlName="explanation"></textarea>
+
+    <button type="submit" [disabled]="exerciseForm.invalid">
+      ✅ Créer Exercice
+    </button>
+  </form>
+</div>

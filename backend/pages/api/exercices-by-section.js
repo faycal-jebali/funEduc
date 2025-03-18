@@ -5,7 +5,7 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
-const tableName = "exercices_funeduc";
+const sectionTableName = "exercices_section_funeduc";
 
 export default async function handler(req, res) {
   // **Gérer les pré-requêtes CORS (OPTIONS)**
@@ -25,50 +25,46 @@ export default async function handler(req, res) {
 
   try {
     if (req.method === "GET") {
-      const { data, error } = await supabase.from(tableName).select("*");
+      // Récupérer toutes les sections avec leurs exercices associés
+      const { data, error } = await supabase.from(sectionTableName).select(`
+          id, 
+          title, 
+          description, 
+          exercices:exercices_funeduc (
+            id, 
+            type, 
+            question, 
+            correct_answer, 
+            options,
+            explanation, 
+            difficulty, 
+            created_by
+          )
+        `);
+
       if (error) {
         console.error("Supabase GET Error:", error);
         throw error;
       }
+
       return res.status(200).json(data);
     }
 
     if (req.method === "POST") {
-      const {
-        type,
-        question,
-        options,
-        correct_answer,
-        explanation,
-        difficulty,
-        created_by,
-        section_id,
-      } = req.body;
+      const { title, description, created_by } = req.body;
 
-      if (
-        !type ||
-        !question ||
-        !correct_answer ||
-        !difficulty ||
-        !created_by ||
-        !section_id
-      ) {
+      if (!title) {
         return res.status(400).json({
-          error:
-            "Tous les champs sont requis (type, question, correct_answer, difficulty, created_by, section_id)",
+          error: "Le champ 'title' est requis",
         });
       }
 
-      const { data, error } = await supabase.from(tableName).insert([
+      // Insérer une nouvelle section dans la base de données
+      const { data, error } = await supabase.from(sectionTableName).insert([
         {
-          type,
-          question,
-          options,
-          correct_answer,
-          explanation,
-          difficulty,
-          created_by,
-          section_id,
+          title,
+          description: description || null,
+          created_by: created_by || null,
         },
       ]);
 
@@ -76,10 +72,13 @@ export default async function handler(req, res) {
         console.error("Supabase POST Error:", error);
         throw error;
       }
-      return res.status(201).json(data);
+
+      return res
+        .status(201)
+        .json({ message: "Section créée avec succès", data });
     }
 
-    res.setHeader("Allow", ["GET", "POST", "OPTIONS"]);
+    res.setHeader("Allow", ["GET", "OPTIONS"]);
     res.status(405).end(`Méthode ${req.method} non autorisée`);
   } catch (error) {
     console.error("Erreur API :", error.message);
