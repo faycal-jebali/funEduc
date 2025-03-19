@@ -34,12 +34,15 @@ export default async function handler(req, res) {
       if (
         !section.title ||
         !section.created_by ||
+        !section.lesson_id ||
+        !section.category_id ||
+        !section.subLesson_id ||
         !Array.isArray(exercices) ||
         exercices.length === 0
       ) {
         return res.status(400).json({
           error:
-            "Les champs 'title', 'created_by' et un tableau 'exercices' sont requis.",
+            "Les champs 'title', 'created_by' , 'lesson_id', 'category_id', 'sublesson_id' et un tableau 'exercices' sont requis.",
         });
       }
 
@@ -50,6 +53,9 @@ export default async function handler(req, res) {
           {
             title: section.title,
             description: section.description,
+            lesson_id: section.lesson_id,
+            category_id: section.category_id,
+            subLesson_id: section.subLesson_id,
             created_by: "admin",
           },
         ])

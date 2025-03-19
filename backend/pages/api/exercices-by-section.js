@@ -30,7 +30,8 @@ export default async function handler(req, res) {
       const { data, error } = await supabase.from(sectionTableName).select(`
     id, 
     title, 
-    description, 
+    description,
+    lesson_id,
     exercices:exercices_funeduc (
       id, 
       type, 
@@ -70,7 +71,7 @@ export default async function handler(req, res) {
     }
 
     if (req.method === "POST") {
-      const { title, description, created_by } = req.body;
+      const { title, description, lesson_id, created_by } = req.body;
 
       if (!title) {
         return res.status(400).json({
@@ -83,6 +84,7 @@ export default async function handler(req, res) {
         {
           title,
           description: description || null,
+          lesson_id: lesson_id || null,
           created_by: created_by || null,
         },
       ]);
