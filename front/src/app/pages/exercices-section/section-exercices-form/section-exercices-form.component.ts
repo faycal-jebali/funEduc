@@ -13,11 +13,24 @@ import { ExerciceSectionService } from 'src/app/shared/services/exercices-sectio
 import { ExerciceService } from 'src/app/shared/services/exercices.service';
 import { UserRole } from 'src/app/shared/interfaces/exercices.new';
 import { FullStructureSubjectsService } from 'src/app/shared/services/full-structutre-subjects';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-section-exercice-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+  ],
   templateUrl: './section-exercices-form.component.html',
   styleUrls: ['./section-exercices-form.component.css'],
 })

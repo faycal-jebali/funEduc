@@ -3,56 +3,65 @@
   <form [formGroup]="form" (ngSubmit)="submit()">
     <!-- Formulaire de la section -->
     <div formGroupName="section">
-      <label for="title">Titre de la Section :</label>
-      <input id="title" formControlName="title" type="text" />
-      <div
-        *ngIf="
-          form.get('section.title')?.invalid &&
-          form.get('section.title')?.touched
-        "
-      >
-        Le titre est requis.
-      </div>
-      <!--pre>{{ courses | json }}</pre-->
-
-      <label for="lesson_id">Leçon :</label>
-      <select id="lesson_id" formControlName="lesson_id">
-        <option *ngFor="let course of courses" [value]="course.id">
-          {{ course.title }}
-        </option>
-      </select>
-
-      <label for="category_id">Catégorie :</label>
-      <select id="category_id" formControlName="category_id">
-        <option
-          *ngFor="let category of selectedCourse?.lesson_categories_funeduc"
-          [value]="category.id"
+      <mat-form-field appearance="fill">
+        <mat-label>Titre de la Section :</mat-label>
+        <input matInput formControlName="title" type="text" />
+        <mat-error
+          *ngIf="
+            form.get('section.title')?.invalid &&
+            form.get('section.title')?.touched
+          "
         >
-          {{ category.title }}
-        </option>
-      </select>
+          Le titre est requis.
+        </mat-error>
+      </mat-form-field>
 
-      <label for="subLesson_id">Sous-Leçon :</label>
-      <select id="subLesson_id" formControlName="subLesson_id">
-        <option
-          *ngFor="let subLesson of selectedCategory?.sub_lessons_funeduc"
-          [value]="subLesson.id"
-        >
-          {{ subLesson.title }}
-        </option>
-      </select>
+      <mat-form-field appearance="fill">
+        <mat-label>Leçon :</mat-label>
+        <mat-select formControlName="lesson_id">
+          <mat-option *ngFor="let course of courses" [value]="course.id">
+            {{ course.title }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-      <div
+      <mat-form-field appearance="fill">
+        <mat-label>Catégorie :</mat-label>
+        <mat-select formControlName="category_id">
+          <mat-option
+            *ngFor="let category of selectedCourse?.lesson_categories_funeduc"
+            [value]="category.id"
+          >
+            {{ category.title }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Sous-Leçon :</mat-label>
+        <mat-select formControlName="subLesson_id">
+          <mat-option
+            *ngFor="let subLesson of selectedCategory?.sub_lessons_funeduc"
+            [value]="subLesson.id"
+          >
+            {{ subLesson.title }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-error
         *ngIf="
           form.get('section.lesson')?.invalid &&
           form.get('section.lesson')?.touched
         "
       >
         La leçon est requise.
-      </div>
+      </mat-error>
 
-      <label for="description">Description :</label>
-      <textarea id="description" formControlName="description"></textarea>
+      <mat-form-field appearance="fill">
+        <mat-label>Description :</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+      </mat-form-field>
     </div>
 
     <!-- Liste des exercices -->
@@ -62,58 +71,92 @@
         [formGroupName]="i"
       >
         <h3>Exercice {{ i + 1 }}</h3>
-        <label for="question-{{ i }}">Question :</label>
-        <input id="question-{{ i }}" formControlName="question" type="text" />
 
-        <label for="correct_answer-{{ i }}">Réponse Correcte :</label>
-        <input
-          id="correct_answer-{{ i }}"
-          formControlName="correct_answer"
-          type="text"
-        />
+        <mat-form-field appearance="fill">
+          <mat-label>Question :</mat-label>
+          <input
+            matInput
+            id="question-{{ i }}"
+            formControlName="question"
+            type="text"
+          />
+        </mat-form-field>
 
-        <label for="type-{{ i }}">Type :</label>
-        <select id="type-{{ i }}" formControlName="type">
-          <option value="fill-in-the-blank">Compléter les blancs</option>
-          <option value="multiple-choice">Choix multiples</option>
-        </select>
+        <mat-form-field appearance="fill">
+          <mat-label>Réponse Correcte :</mat-label>
+          <input
+            matInput
+            id="correct_answer-{{ i }}"
+            formControlName="correct_answer"
+            type="text"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Type :</mat-label>
+          <mat-select id="type-{{ i }}" formControlName="type">
+            <mat-option value="fill-in-the-blank"
+              >Compléter les blancs</mat-option
+            >
+            <mat-option value="multiple-choice">Choix multiples</mat-option>
+          </mat-select>
+        </mat-form-field>
 
         <!-- Gestion des options pour choix multiple -->
         <div *ngIf="exercice.get('type')?.value === 'multiple-choice'">
-          <label>Options :</label>
+          <mat-label>Options :</mat-label>
           <div formArrayName="options">
             <div *ngFor="let option of getOptions(i).controls; let j = index">
-              <input [formControlName]="j" type="text" />
-              <button type="button" (click)="removeOption(i, j)">❌</button>
+              <mat-form-field appearance="fill">
+                <input matInput [formControlName]="j" type="text" />
+              </mat-form-field>
+              <button mat-icon-button (click)="removeOption(i, j)">
+                <mat-icon>delete</mat-icon>
+              </button>
             </div>
           </div>
-          <button type="button" (click)="addOption(i)">
-            ➕ Ajouter une option
+          <button
+            mat-raised-button
+            color="primary"
+            type="button"
+            (click)="addOption(i)"
+          >
+            Ajouter une option
           </button>
         </div>
 
-        <label for="difficulty-{{ i }}">Difficulté :</label>
-        <select id="difficulty-{{ i }}" formControlName="difficulty">
-          <option value="easy">Facile</option>
-          <option value="medium">Moyenne</option>
-          <option value="hard">Difficile</option>
-        </select>
+        <mat-form-field appearance="fill">
+          <mat-label>Difficulté :</mat-label>
+          <mat-select id="difficulty-{{ i }}" formControlName="difficulty">
+            <mat-option value="easy">Facile</mat-option>
+            <mat-option value="medium">Moyenne</mat-option>
+            <mat-option value="hard">Difficile</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-        <label for="explanation-{{ i }}">Explication :</label>
-        <textarea
-          id="explanation-{{ i }}"
-          formControlName="explanation"
-        ></textarea>
+        <mat-form-field appearance="fill">
+          <mat-label>Explication :</mat-label>
+          <textarea
+            matInput
+            id="explanation-{{ i }}"
+            formControlName="explanation"
+          ></textarea>
+        </mat-form-field>
 
-        <button type="button" (click)="removeExercice(i)">
-          ❌ Supprimer l'exercice
+        <button mat-icon-button (click)="removeExercice(i)">
+          <mat-icon>delete</mat-icon>
         </button>
       </div>
     </div>
 
-    <button type="button" (click)="addExercice()">
-      ➕ Ajouter un Exercice
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      (click)="addExercice()"
+    >
+      Ajouter un Exercice
     </button>
-    <button type="submit">✅ Enregistrer</button>
+    <button mat-raised-button color="accent" type="submit">Enregistrer</button>
   </form>
 </div>
