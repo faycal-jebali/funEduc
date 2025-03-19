@@ -5,9 +5,10 @@ import { FillTheBlanksByTypeComponent } from './shared/components/fill-the-blank
 import { AppComponent } from './app.component';
 import { SectionFormComponent } from './pages/exercices-section/section-form/section-form.component';
 import { ExerciceFormComponent } from './pages/exercices-section/exercice-form/exercice-form.component';
+import { SubjectDetailComponent } from './pages/subject-detail/subject-detail.component';
 
 export const routes: Routes = [
-  { path: '', component: AppComponent }, // Page d'accueil
+  { path: '', component: SubjectDetailComponent }, // Page d'accueil
   { path: 'task', component: FillTheBlanksComponent },
   { path: 'task-by-type', component: FillTheBlanksByTypeComponent },
   // { path: '', redirectTo: 'classes', pathMatch: 'full' },
@@ -24,6 +25,13 @@ export const routes: Routes = [
       import(
         './pages/exercices-section/exercice-form/exercice-form.component'
       ).then((m) => m.ExerciceFormComponent),
+  },
+  {
+    path: 'section-exercice-form',
+    loadComponent: () =>
+      import(
+        './pages/exercices-section/section-exercices-form/section-exercices-form.component'
+      ).then((m) => m.SectionExercicesFormComponent),
   },
   {
     path: 'classes',

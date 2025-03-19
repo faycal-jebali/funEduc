@@ -1,4 +1,4 @@
-export enum ExerciseType {
+export enum ExerciceType {
   FILL_IN_THE_BLANK = 'fill-in-the-blank', // Texte à trous
   MULTIPLE_CHOICE = 'multiple-choice', // QCM
   MATCHING = 'matching', // Correspondance
@@ -18,9 +18,9 @@ export enum UserRole {
   ADMIN = 'admin', // Administrateur
 }
 
-export interface ExerciseAttempt {
+export interface ExerciceAttempt {
   id: string;
-  exerciseId: string; // Référence à l'exercice
+  exerciceId: string; // Référence à l'exercice
   userId: string; // Référence à l'élève
   givenAnswer: string | string[] | Record<string, string>; // Réponse donnée
   isCorrect: boolean; // Indique si la réponse est correcte
@@ -39,7 +39,7 @@ export interface ExerciceSectionItem {
 
 export interface ExerciceItem {
   id: string; // Identifiant unique
-  type: ExerciseType; // Type de l'exercice
+  type: ExerciceType; // Type de l'exercice
   question?: string; // Énoncé (pour certains types d'exercice)
   options?: string[]; // Options possibles (pour les QCM)
   correct_answer: string | string[] | Record<string, string>; // Réponse(s) correcte(s)
@@ -49,9 +49,9 @@ export interface ExerciceItem {
   createdBy: UserRole; // Qui a créé l'exercice (parent, enseignant, admin)
 }
 
-const exampleExercise: ExerciceItem = {
+const exampleExercice: ExerciceItem = {
   id: 'ex1',
-  type: ExerciseType.FILL_IN_THE_BLANK,
+  type: ExerciceType.FILL_IN_THE_BLANK,
   question: "Nous ______ à l'école. (être)",
   correct_answer: 'sommes',
   explanation: "Le verbe 'être' au présent avec 'nous' donne 'sommes'.",
@@ -63,13 +63,13 @@ const exampleSection: ExerciceSectionItem = {
   id: 'sec1',
   title: 'Conjugaison - Présent de l’indicatif',
   description: 'Exercices pour apprendre le présent des verbes être et avoir.',
-  exercices: [exampleExercise],
+  exercices: [exampleExercice],
   createdBy: UserRole.ADMIN,
 };
 
-const exampleAttempt: ExerciseAttempt = {
+const exampleAttempt: ExerciceAttempt = {
   id: 'att1',
-  exerciseId: 'ex1',
+  exerciceId: 'ex1',
   userId: 'student123',
   givenAnswer: 'sommes',
   isCorrect: true,

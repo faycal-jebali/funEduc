@@ -23,7 +23,7 @@ export class ExerciceService {
   }
 
   // Créer un nouvel exercice
-  createExercise(exercise: {
+  createExercice(exercice: {
     type: string;
     question: string;
     correct_answer: string;
@@ -32,7 +32,7 @@ export class ExerciceService {
     created_by: string;
     section_id: string;
   }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/exercices`, exercise, {
+    return this.http.post(`${this.apiUrl}/exercices`, exercice, {
       headers: new HttpHeaders().set('x-api-key', '01234567890'),
     });
   }

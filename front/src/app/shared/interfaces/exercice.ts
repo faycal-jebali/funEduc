@@ -1,4 +1,4 @@
-export interface Exercise {
+export interface Exercice {
   type?: 'fill-in-the-blank' | 'multiple-choice' | 'matching';
   sentence?: string;
   options?: string[];
@@ -7,5 +7,5 @@ export interface Exercise {
 
 export interface ExerciceSectionItem {
   title?: string;
-  list: Exercise[];
+  list: Exercice[];
 }

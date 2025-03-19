@@ -1,11 +1,11 @@
-<div class="exercise-container">
+<div class="exercice-container">
   <!-- Animation de réussite -->
   <div *ngIf="successAnimation" class="confetti">
     🎉 🎊 🎈 Félicitations ! 🎈 🎊 🎉
   </div>
 
-  <form [formGroup]="exerciseForm">
-    <div *ngFor="let ex of exercices; let i = index" class="exercise">
+  <form [formGroup]="exerciceForm">
+    <div *ngFor="let ex of exercices; let i = index" class="exercice">
       <p class="sentence" *ngIf="ex.sentence">
         {{ ex.sentence.replace("______", "______") }}
       </p>
@@ -13,8 +13,8 @@
         <button
           *ngFor="let option of ex.options"
           type="button"
-          (click)="exerciseForm.get('answer' + i)?.setValue(option)"
-          [class.selected]="exerciseForm.get('answer' + i)?.value === option"
+          (click)="exerciceForm.get('answer' + i)?.setValue(option)"
+          [class.selected]="exerciceForm.get('answer' + i)?.value === option"
         >
           {{ option }}
         </button>

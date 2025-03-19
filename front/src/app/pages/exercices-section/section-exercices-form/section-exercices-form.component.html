@@ -1,0 +1,82 @@
+<div class="section-exercice-container">
+  <h2>Créer une Section et ses Exercices</h2>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <!-- Formulaire de la section -->
+    <div formGroupName="section">
+      <label for="title">Titre de la Section :</label>
+      <input id="title" formControlName="title" type="text" />
+      <div
+        *ngIf="
+          form.get('section.title')?.invalid &&
+          form.get('section.title')?.touched
+        "
+      >
+        Le titre est requis.
+      </div>
+
+      <label for="description">Description :</label>
+      <textarea id="description" formControlName="description"></textarea>
+    </div>
+
+    <!-- Liste des exercices -->
+    <div formArrayName="exercices">
+      <div
+        *ngFor="let exercice of exercices.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <h3>Exercice {{ i + 1 }}</h3>
+        <label for="question-{{ i }}">Question :</label>
+        <input id="question-{{ i }}" formControlName="question" type="text" />
+
+        <label for="correct_answer-{{ i }}">Réponse Correcte :</label>
+        <input
+          id="correct_answer-{{ i }}"
+          formControlName="correct_answer"
+          type="text"
+        />
+
+        <label for="type-{{ i }}">Type :</label>
+        <select id="type-{{ i }}" formControlName="type">
+          <option value="fill-in-the-blank">Compléter les blancs</option>
+          <option value="multiple-choice">Choix multiples</option>
+        </select>
+
+        <!-- Gestion des options pour choix multiple -->
+        <div *ngIf="exercice.get('type')?.value === 'multiple-choice'">
+          <label>Options :</label>
+          <div formArrayName="options">
+            <div *ngFor="let option of getOptions(i).controls; let j = index">
+              <input [formControlName]="j" type="text" />
+              <button type="button" (click)="removeOption(i, j)">❌</button>
+            </div>
+          </div>
+          <button type="button" (click)="addOption(i)">
+            ➕ Ajouter une option
+          </button>
+        </div>
+
+        <label for="difficulty-{{ i }}">Difficulté :</label>
+        <select id="difficulty-{{ i }}" formControlName="difficulty">
+          <option value="easy">Facile</option>
+          <option value="medium">Moyenne</option>
+          <option value="hard">Difficile</option>
+        </select>
+
+        <label for="explanation-{{ i }}">Explication :</label>
+        <textarea
+          id="explanation-{{ i }}"
+          formControlName="explanation"
+        ></textarea>
+
+        <button type="button" (click)="removeExercice(i)">
+          ❌ Supprimer l'exercice
+        </button>
+      </div>
+    </div>
+
+    <button type="button" (click)="addExercice()">
+      ➕ Ajouter un Exercice
+    </button>
+    <button type="submit">✅ Enregistrer</button>
+  </form>
+</div>

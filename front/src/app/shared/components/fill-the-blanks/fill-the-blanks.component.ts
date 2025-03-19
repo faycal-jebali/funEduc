@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Howl } from 'howler';
-import { Exercise } from '../../interfaces/exercice';
+import { Exercice } from '../../interfaces/exercice';
 
 @Component({
   selector: 'app-fill-the-blanks',
@@ -12,8 +12,8 @@ import { Exercise } from '../../interfaces/exercice';
   styleUrls: ['./fill-the-blanks.component.css'],
 })
 export class FillTheBlanksComponent {
-  exerciseForm!: FormGroup;
-  exercices: Exercise[] = [
+  exerciceForm!: FormGroup;
+  exercices: Exercice[] = [
     {
       sentence: 'Le chat _______ sur le canapé.',
       options: ['mange', 'manger', 'mangé'],
@@ -45,7 +45,7 @@ export class FillTheBlanksComponent {
       correctAnswer: 'fais',
     },
   ];
-  exercices2: Exercise[] = [
+  exercices2: Exercice[] = [
     {
       sentence: "L'enfant _______ les pieds nus.",
       options: ['marchait', 'buvaient', 'perdent'],
@@ -77,9 +77,9 @@ export class FillTheBlanksComponent {
   }
 
   ngOnInit() {
-    this.exerciseForm = this.fb.group({});
+    this.exerciceForm = this.fb.group({});
     this.exercices.forEach((_, index) => {
-      this.exerciseForm.addControl('answer' + index, this.fb.control(''));
+      this.exerciceForm.addControl('answer' + index, this.fb.control(''));
     });
   }
 
@@ -96,7 +96,7 @@ export class FillTheBlanksComponent {
     this.showCorrection = false;
     let allCorrect = true;
     this.exercices.forEach((ex, index) => {
-      const userAnswer = this.exerciseForm.get('answer' + index)?.value;
+      const userAnswer = this.exerciceForm.get('answer' + index)?.value;
       const isCorrect = userAnswer === ex.correctAnswer;
       this.feedback['answer' + index] = isCorrect ? '✅ Bravo !' : '❌ Oups !';
       if (!isCorrect) allCorrect = false;
