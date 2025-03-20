@@ -1,0 +1,25 @@
+<!--div fxLayout="row" fxLayout.lt-md="row" fxLayoutAlign="center center">
+  <div fxFlex="50" fxFlex.lt-md="100">
+    <mat-card>Bloc 1</mat-card>
+  </div>
+  <div fxFlex="50" fxFlex.lt-md="100">
+    <mat-card>Bloc 2</mat-card>
+  </div>
+</div-->
+
+<div class="py-2">
+  <div class="d-flex justify-content-center align-items-center gap-2">
+    <app-speaker-button [text]="phrase"></app-speaker-button>
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-label>Écris ce que tu entends...</mat-label>
+      <textarea
+        matInput
+        [formControl]="dictationControl"
+        placeholder="Écris ici..."
+      ></textarea>
+    </mat-form-field>
+  </div>
+
+  <p *ngIf="isCorrect === true" class="correct">Correct ! 🎉</p>
+  <p *ngIf="isCorrect === false" class="incorrect">Incorrect ❌</p>
+</div>

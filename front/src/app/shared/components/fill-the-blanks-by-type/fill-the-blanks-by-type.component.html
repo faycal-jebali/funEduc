@@ -1,56 +1,98 @@
 <div class="exercice-container">
-  <div *ngIf="successAnimation" class="confetti">🎉 Félicitations ! 🎊</div>
+  <div *ngIf="successAnimation" class="confetti pb-3">
+    🎉 Félicitations ! 🎊
+  </div>
 
   <form [formGroup]="exerciceForm">
     <div *ngFor="let ex of exercices; let i = index" class="exercice">
-      <p *ngIf="ex.type !== 'matching' && ex.question" class="sentence">
-        <ng-container *ngIf="ex.type === 'fill-in-the-blank'">
-          {{ ex.question.split("______")[0] }}
-          <input type="text" [formControlName]="'answer' + i" />
-          {{ ex.question.split("______")[1] }}
-        </ng-container>
-        <ng-container *ngIf="ex.type === 'multiple-choice'">
-          {{ ex.question.replace("______", "______") }}
-        </ng-container>
-      </p>
+      <span class="exercice-numero">{{ i + 1 }}</span>
+      <div class="w-100">
+        <div class="exercice-renseignement">{{ ex.consigne }}</div>
+        <div *ngIf="ex.type !== 'matching' && ex.question">
+          <!--Dictation-->
+          <ng-container *ngIf="ex.type === 'dictation'">
+            <app-dictation
+              [formControlName]="'answer' + i"
+              [phrase]="getTexetDictation(ex.correct_answer)"
+            ></app-dictation>
+          </ng-container>
 
-      <div *ngIf="ex.type === 'multiple-choice'" class="options">
-        <button
-          *ngFor="let option of ex.options"
-          type="button"
-          (click)="exerciceForm.get('answer' + i)?.setValue(option)"
-          [class.selected]="exerciceForm.get('answer' + i)?.value === option"
+          <!--fill-in-the-blank-->
+          <ng-container *ngIf="ex.type === 'fill-in-the-blank'">
+            <p class="instruction">
+              Sélectionnez la réponse qui complète correctement la phrase
+              suivante.
+            </p>
+            <div>
+              {{ ex.question.split("______")[0] }}
+              <mat-form-field appearance="fill">
+                <input matInput type="text" [formControlName]="'answer' + i" />
+              </mat-form-field>
+              {{ ex.question.split("______")[1] }}
+            </div>
+          </ng-container>
+
+          <!--multiple-choice-->
+          <ng-container *ngIf="ex.type === 'multiple-choice'">
+            <p class="instruction">
+              Choisissez la bonne réponse parmi les propositions suivantes.
+            </p>
+            {{ ex.question.replace("______", "______") }}
+          </ng-container>
+        </div>
+
+        <div *ngIf="ex.type === 'multiple-choice'" class="options pt-2">
+          <button
+            *ngFor="let option of ex.options"
+            type="button"
+            (click)="exerciceForm.get('answer' + i)?.setValue(option)"
+            [class.selected]="exerciceForm.get('answer' + i)?.value === option"
+          >
+            {{ option }}
+          </button>
+        </div>
+
+        <!-- matching -->
+        <div
+          *ngIf="ex.type === 'matching'"
+          class="matching-container"
+          [formGroup]="getMatchingGroup(i)"
         >
-          {{ option }}
-        </button>
-      </div>
+          <div class="matching-pair">
+            <p class="instruction">
+              Associez chaque élément de gauche avec l’option correcte dans la
+              liste déroulante.
+            </p>
+            <div
+              *ngFor="let key of ex.correct_answer | keyvalue"
+              class="d-flex align-items-center gap-2"
+            >
+              <span>{{ key.key }}</span>
 
-      <!-- Exercice d'association (Matching) avec Reactive Forms -->
-      <div
-        *ngIf="ex.type === 'matching'"
-        class="matching-container"
-        [formGroup]="getMatchingGroup(i)"
-      >
-        <div class="matching-pair">
-          <div *ngFor="let key of ex.correct_answer | keyvalue">
-            <span>{{ key.key }}</span>
-            <select [formControlName]="key.key">
-              <option *ngFor="let option of ex.options" [value]="option">
-                {{ option }}
-              </option>
-            </select>
+              <mat-form-field appearance="fill">
+                <mat-label>Choisissez une option</mat-label>
+                <mat-select [formControlName]="key.key">
+                  <mat-option
+                    *ngFor="let option of ex.options"
+                    [value]="option"
+                  >
+                    {{ option }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
           </div>
         </div>
+
+        <p class="feedback">{{ feedback["answer" + i] }}</p>
+
+        <p
+          *ngIf="showCorrection && feedback['answer' + i] === '❌ Oups !'"
+          class="correction"
+        >
+          ✅ Bonne réponse : <strong>{{ ex.correct_answer | json }}</strong>
+        </p>
       </div>
-
-      <p class="feedback">{{ feedback["answer" + i] }}</p>
-
-      <p
-        *ngIf="showCorrection && feedback['answer' + i] === '❌ Oups !'"
-        class="correction"
-      >
-        ✅ Bonne réponse : <strong>{{ ex.correct_answer | json }}</strong>
-      </p>
     </div>
 
     <button type="button" (click)="checkAnswers()">✅ Valider</button>

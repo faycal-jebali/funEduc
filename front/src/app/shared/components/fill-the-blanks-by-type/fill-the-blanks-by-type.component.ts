@@ -7,11 +7,23 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ExerciceItem } from '../../interfaces/exercices.new';
+import { DictationComponent } from '../dictation/dictation.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-fill-the-blanks-by-type',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    DictationComponent,
+    MatInputModule,
+    MatFormFieldModule,
+    MatSelectModule,
+  ],
   templateUrl: './fill-the-blanks-by-type.component.html',
   styleUrls: ['./fill-the-blanks-by-type.component.css'],
 })
@@ -96,6 +108,10 @@ export class FillTheBlanksByTypeComponent implements OnInit {
       });
     }
     this.successAnimation = allCorrect;
+  }
+
+  getTexetDictation(answer: any): string {
+    return answer as string;
   }
 
   showCorrections() {

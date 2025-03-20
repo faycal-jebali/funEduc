@@ -36,10 +36,13 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class SectionExercicesFormComponent implements OnInit {
   form: FormGroup;
+  fullStructure: any[] = []; // Pour stocker la structure des leçons
   courses: any[] = []; // Pour stocker la structure des leçons
+  selectedClassId: string = ''; // ID de la classe sélectionnée
   selectedCourseId: string = ''; // ID de la leçon sélectionnée
   selectedCategoryId: string = ''; // ID de la catégorie sélectionnée
   selectedSubLessonId: string = ''; // ID de la sous-leçon sélectionnée
+  selectedClass: any = null; // Détails de la classe sélectionnée
   selectedCourse: any = null; // Détails de la leçon sélectionnée
   selectedCategory: any = null; // Détails de la catégorie sélectionnée
 
@@ -56,6 +59,7 @@ export class SectionExercicesFormComponent implements OnInit {
         title: ['', Validators.required],
         description: [''],
         created_by: [UserRole.ADMIN], // TODO to be dynamic
+        class_id: ['', Validators.required], // Sélection de la classe
         lesson_id: ['', Validators.required], // Sélection de la leçon
         category_id: ['', Validators.required], // Sélection de la catégorie
         subLesson_id: ['', Validators.required], // Sélection de la sous-leçon
@@ -64,6 +68,7 @@ export class SectionExercicesFormComponent implements OnInit {
     });
 
     this.onLessonChange();
+    this.onClassChange();
     this.onCategoryChange();
   }
 
@@ -74,6 +79,7 @@ export class SectionExercicesFormComponent implements OnInit {
   getStructureSubjects(): void {
     this.fullStructureSubjectsService.getFullStructureSubjects().subscribe({
       next: (data) => {
+        this.fullStructure = data;
         this.courses = data;
         console.log('this.courses : ', this.courses);
       },
@@ -81,6 +87,26 @@ export class SectionExercicesFormComponent implements OnInit {
         console.error('Erreur lors du chargement des leçons:', err);
       },
     });
+  }
+  onClassChange(): void {
+    this.form
+      ?.get('section')
+      ?.get('class_id')
+      ?.valueChanges.subscribe({
+        next: (data) => {
+          this.selectedClassId = data;
+
+          this.selectedClass = this.fullStructure.find(
+            (classe) => classe.id === this.selectedClassId
+          );
+          console.log('this.selectedClass  : ', this.selectedClass);
+
+          this.selectedCourseId = ''; // Réinitialiser la lesson
+          this.selectedCategoryId = ''; // Réinitialiser la catégorie
+          this.selectedSubLessonId = ''; // Réinitialiser la sous-leçon
+          this.selectedCategory = null; // Réinitialiser la catégorie sélectionnée
+        },
+      });
   }
 
   // Mettre à jour la catégorie sélectionnée en fonction de la leçon
@@ -91,14 +117,16 @@ export class SectionExercicesFormComponent implements OnInit {
       ?.valueChanges.subscribe({
         next: (data) => {
           this.selectedCourseId = data;
+          console.log('selectedCourseId : ', this.selectedCourseId);
 
-          this.selectedCourse = this.courses.find(
-            (course) => course.id === this.selectedCourseId
+          this.selectedCourse = this.selectedClass.children.find(
+            (course: any) => course.id === this.selectedCourseId
           );
 
-          this.selectedCategoryId = ''; // Réinitialiser la catégorie
+          console.log('this.selectedCourse  : ', this.selectedCourse);
+
+          this.selectedCategoryId = ''; // Réinitialiser la sous-leçon
           this.selectedSubLessonId = ''; // Réinitialiser la sous-leçon
-          this.selectedCategory = null; // Réinitialiser la catégorie sélectionnée
         },
       });
   }
@@ -112,10 +140,9 @@ export class SectionExercicesFormComponent implements OnInit {
         next: (data) => {
           this.selectedCategoryId = data;
 
-          this.selectedCategory =
-            this.selectedCourse?.lesson_categories_funeduc.find(
-              (category: any) => category.id === this.selectedCategoryId
-            );
+          this.selectedCategory = this.selectedCourse?.children.find(
+            (category: any) => category.id === this.selectedCategoryId
+          );
           this.selectedSubLessonId = ''; // Réinitialiser la sous-leçon
         },
       });
@@ -140,6 +167,7 @@ export class SectionExercicesFormComponent implements OnInit {
   private createExerciceForm(): FormGroup {
     return this.fb.group({
       type: ['fill-in-the-blank', Validators.required],
+      consigne: [''],
       question: ['', Validators.required],
       correct_answer: ['', Validators.required],
       options: this.fb.array([]), // Options dynamiques pour les questions à choix multiple
@@ -171,16 +199,15 @@ export class SectionExercicesFormComponent implements OnInit {
     if (this.form.valid) {
       this.exerciceSectionService
         .createSectionWithExercices(this.form.value)
-        .subscribe(
-          () => {
+        .subscribe({
+          next: () => {
             alert('Section et exercices créés avec succès !');
-            // this.router.navigate(['/']);
           },
-          (error) => {
+          error: (error) => {
             alert("Erreur lors de l'enregistrement.");
             console.error(error);
-          }
-        );
+          },
+        });
     } else {
       alert('Veuillez remplir tous les champs requis.');
     }
