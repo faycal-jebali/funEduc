@@ -6,9 +6,13 @@ import { AppComponent } from './app.component';
 import { SectionFormComponent } from './pages/exercices-section/section-form/section-form.component';
 import { ExerciceFormComponent } from './pages/exercices-section/exercice-form/exercice-form.component';
 import { SubjectDetailComponent } from './pages/subject-detail/subject-detail.component';
+import { HomeComponent } from './pages/home/home.component';
+import { ClasseDetailComponent } from './pages/classe-detail/classe-detail.component';
 
 export const routes: Routes = [
-  { path: '', component: SubjectDetailComponent }, // Page d'accueil
+  { path: '', component: HomeComponent }, // Page d'accueil
+  { path: 'classes/:id', component: ClasseDetailComponent },
+  { path: 'devoirs', component: SubjectDetailComponent }, // Page d'accueil
   { path: 'task', component: FillTheBlanksComponent },
   { path: 'task-by-type', component: FillTheBlanksByTypeComponent },
   // { path: '', redirectTo: 'classes', pathMatch: 'full' },
@@ -63,6 +67,13 @@ export const routes: Routes = [
   },
   {
     path: 'classes/:classId/subjects/:subjectId/lesson/:lessonId',
+    loadComponent: () =>
+      import('./pages/subject-detail/subject-detail.component').then(
+        (m) => m.SubjectDetailComponent
+      ),
+  },
+  {
+    path: 'classes/:classId/lesson/:lessonId/category/:categoryId/sublesson/:subLessonId',
     loadComponent: () =>
       import('./pages/subject-detail/subject-detail.component').then(
         (m) => m.SubjectDetailComponent

@@ -1,0 +1,13 @@
+<p>Classes</p>
+<p><fa-icon [icon]="faHome"></fa-icon> Accueil</p>
+<app-dictation></app-dictation>
+
+<div class="grid-list">
+  <button
+    mat-button
+    *ngFor="let class of fullStructure"
+    (click)="goToClassDetail(class.id)"
+  >
+    {{ class.title }}
+  </button>
+</div>
