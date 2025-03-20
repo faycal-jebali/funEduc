@@ -18,14 +18,15 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { data, error } = await supabase.from("lessons_funeduc").select(`
+    const { data, error } = await supabase.from("classes_funeduc").select(`
         id, title, alias,
-        lesson_categories_funeduc (
+        lesson_classes_funeduc (lesson_id, lessons_funeduc (
           id, title, alias,
-          sub_lessons_funeduc (
-            id, title, alias
+          lesson_categories_funeduc (
+            id, title, alias,
+            sub_lessons_funeduc (id, title, alias)
           )
-        )
+        ))
       `);
 
     if (error) {
@@ -33,7 +34,34 @@ export default async function handler(req, res) {
       throw error;
     }
 
-    return res.status(200).json(data);
+    // Transformation des données pour simplifier la structure
+    const transformData = (data) => {
+      return data.map((cls) => ({
+        id: cls.id,
+        title: cls.title,
+        alias: cls.alias,
+        children:
+          cls.lesson_classes_funeduc?.map((lc) => ({
+            id: lc.lessons_funeduc.id,
+            title: lc.lessons_funeduc.title,
+            alias: lc.lessons_funeduc.alias,
+            children:
+              lc.lessons_funeduc.lesson_categories_funeduc?.map((cat) => ({
+                id: cat.id,
+                title: cat.title,
+                alias: cat.alias,
+                children:
+                  cat.sub_lessons_funeduc?.map((sub) => ({
+                    id: sub.id,
+                    title: sub.title,
+                    alias: sub.alias,
+                  })) || [],
+              })) || [],
+          })) || [],
+      }));
+    };
+
+    return res.status(200).json(transformData(data));
   } catch (error) {
     console.error("Server Error:", error);
     res.status(500).json({ error: "Erreur serveur", details: error.message });

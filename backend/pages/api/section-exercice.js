@@ -34,6 +34,7 @@ export default async function handler(req, res) {
       if (
         !section.title ||
         !section.created_by ||
+        !section.class_id ||
         !section.lesson_id ||
         !section.category_id ||
         !section.subLesson_id ||
@@ -53,6 +54,7 @@ export default async function handler(req, res) {
           {
             title: section.title,
             description: section.description,
+            class_id: section.class_id,
             lesson_id: section.lesson_id,
             category_id: section.category_id,
             subLesson_id: section.subLesson_id,

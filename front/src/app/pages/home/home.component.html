@@ -1,0 +1,11 @@
+<p>Classes</p>
+
+<div class="grid-list">
+  <button
+    mat-button
+    *ngFor="let class of fullStructure"
+    (click)="goToClassDetail(class.id)"
+  >
+    {{ class.title }}
+  </button>
+</div>

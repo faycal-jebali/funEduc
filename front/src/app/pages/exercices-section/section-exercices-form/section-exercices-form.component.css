@@ -1,0 +1,37 @@
+.grid-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.box-border-radius {
+  border: 2px solid #ff4081;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.item-numero {
+  display: inline-flex;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  line-height: 3Opx;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  background: #ff4081;
+  border-radius: 100%;
+}
+
+.box-exercice-form {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  gap: 5px;
+  flex-direction: row;
+}
+
+.primary-color {
+  color: #ff4081;
+}

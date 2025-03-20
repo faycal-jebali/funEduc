@@ -44,6 +44,7 @@ export interface ExerciceItem {
   options?: string[]; // Options possibles (pour les QCM)
   correct_answer: string | string[] | Record<string, string>; // Réponse(s) correcte(s)
   explanation?: string; // Explication de la réponse
+  consigne?: string; // consigne de la réponse
   media?: string; // URL d'une image/audio/vidéo
   difficulty?: DifficultyLevel; // Niveau de difficulté
   createdBy: UserRole; // Qui a créé l'exercice (parent, enseignant, admin)

@@ -1,0 +1,11 @@
+<p>Détails Classe</p>
+
+<div class="grid-list">
+  <button
+    mat-button
+    *ngFor="let class of selectedClass"
+    (click)="goToClassDetail(class.id)"
+  >
+    {{ class.lessons_funeduc.title }}
+  </button>
+</div>
