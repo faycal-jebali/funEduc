@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkfront=self.webpackChunkfront||[]).push([[592],{7287:(c,s,a)=>{a.d(s,{i4:()=>t});var t=(()=>{return(e=t||(t={})).STUDENT="student",e.PARENT="parent",e.TEACHER="teacher",e.ADMIN="admin",t;var e})()}}]);
