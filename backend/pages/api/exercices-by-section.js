@@ -6,6 +6,7 @@ const supabase = createClient(
 );
 
 const sectionTableName = "exercices_section_funeduc";
+const limitSection = 5;
 
 export default async function handler(req, res) {
   // **Gérer les pré-requêtes CORS (OPTIONS)**
@@ -27,31 +28,54 @@ export default async function handler(req, res) {
     if (req.method === "GET") {
       // Récupérer toutes les sections avec leurs exercices associés
       const { data, error } = await supabase.from(sectionTableName).select(`
-          id, 
-          title, 
-          description, 
-          exercices:exercices_funeduc (
-            id, 
-            type, 
-            question, 
-            correct_answer, 
-            options,
-            explanation, 
-            difficulty, 
-            created_by
-          )
-        `);
+    id, 
+    title, 
+    description,
+    class_id,
+    lesson_id,
+    category_id,
+    subLesson_id,
+    exercices:exercices_funeduc (
+      id, 
+      type, 
+      question,
+      consigne,
+      correct_answer, 
+      options,
+      explanation, 
+      difficulty, 
+      created_by
+    )
+  `);
 
       if (error) {
-        console.error("Supabase GET Error:", error);
-        throw error;
+        console.error("Erreur Supabase:", error);
+      } else {
+        // Mélanger les exercices de chaque section et limiter à 5 exercices
+        const sectionsWithRandomExercises = data.map((section) => ({
+          ...section,
+          exercices: section.exercices
+            ? section.exercices
+                .sort(() => 0.5 - Math.random())
+                .slice(0, limitSection)
+                .map((exercice) => ({
+                  ...exercice,
+                  options:
+                    exercice.options && exercice.options.length > 0
+                      ? exercice.options.sort(() => 0.5 - Math.random())
+                      : [], // Mélange les options
+                }))
+            : [],
+        }));
+
+        console.log(sectionsWithRandomExercises);
       }
 
       return res.status(200).json(data);
     }
 
     if (req.method === "POST") {
-      const { title, description, created_by } = req.body;
+      const { title, description, lesson_id, created_by } = req.body;
 
       if (!title) {
         return res.status(400).json({
@@ -64,6 +88,7 @@ export default async function handler(req, res) {
         {
           title,
           description: description || null,
+          lesson_id: lesson_id || null,
           created_by: created_by || null,
         },
       ]);

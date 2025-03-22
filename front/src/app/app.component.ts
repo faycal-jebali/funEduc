@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Exercise } from './shared/interfaces/exercice';
+import { Exercice } from './shared/interfaces/exercice';
 import { CategoryItem, subjectsList } from './shared/mocks/global.mock';
 import { ExerciceService } from './shared/services/exercices.service';
 import { ExerciceSectionService } from './shared/services/exercices-section.service';

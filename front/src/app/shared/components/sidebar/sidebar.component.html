@@ -7,38 +7,111 @@
 <mat-sidenav-container class="sidenav-container">
   <!-- Sidebar -->
   <mat-sidenav #sidenav mode="side" [opened]="isSidebarOpen">
-    <ul class="nav-menu">
-      <li *ngFor="let subject of subjects">
-        <a
-          [routerLink]="['/classes', classId, 'subjects', subject.id]"
-          [attr.aria-disabled]="!subject.active"
-          >{{ subject.name }}</a
-        >
-        <ul
-          class="nav-menu"
-          *ngIf="subject.children && subject.children.length > 0"
-        >
-          <li *ngFor="let lesson of subject.children">
-            <a
-              [routerLink]="[
-                '/classes',
-                classId,
-                'subjects',
-                subject.id,
-                'lesson',
-                lesson.id
-              ]"
-              [attr.aria-disabled]="!lesson.active"
-              >{{ lesson.name }}</a
-            >
-          </li>
-        </ul>
-      </li>
+    <ul>
+      <ng-container *ngFor="let class of fullStructure">
+        <li>
+          <!-- Si la classe a des enfants (lessons), afficher un bouton, sinon un lien -->
+          <ng-container *ngIf="class.children && class.children.length > 0">
+            <button (click)="toggleMenu(class.id)">{{ class.title }}</button>
+            <ul *ngIf="isMenuOpen(class.id)">
+              <ng-container *ngFor="let lesson of class.children">
+                <li>
+                  <!-- Si la leçon a des enfants (categories), afficher un bouton, sinon un lien -->
+                  <ng-container
+                    *ngIf="lesson.children && lesson.children.length > 0"
+                  >
+                    <button (click)="toggleMenu(lesson.id)">
+                      {{ lesson.title }}
+                    </button>
+                    <ul *ngIf="isMenuOpen(lesson.id)">
+                      <ng-container *ngFor="let category of lesson.children">
+                        <li>
+                          <!-- Si la catégorie a des enfants (sublessons), afficher un bouton, sinon un lien -->
+                          <ng-container
+                            *ngIf="
+                              category.children && category.children.length > 0
+                            "
+                          >
+                            <button (click)="toggleMenu(category.id)">
+                              {{ category.title }}
+                            </button>
+                            <ul *ngIf="isMenuOpen(category.id)">
+                              <ng-container
+                                *ngFor="let sublesson of category.children"
+                              >
+                                <li>
+                                  <a
+                                    [routerLink]="[
+                                      '/classes',
+                                      class.id,
+                                      'lesson',
+                                      lesson.id,
+                                      'category',
+                                      category.id,
+                                      'sublesson',
+                                      sublesson.id
+                                    ]"
+                                  >
+                                    {{ sublesson.title }}
+                                  </a>
+                                </li>
+                              </ng-container>
+                            </ul>
+                          </ng-container>
+                          <!-- Si la catégorie n'a pas de sous-leçons, afficher un lien direct -->
+                          <ng-container
+                            *ngIf="
+                              !(
+                                category.children &&
+                                category.children.length > 0
+                              )
+                            "
+                          >
+                            <a
+                              [routerLink]="[
+                                '/classes',
+                                class.id,
+                                'lesson',
+                                lesson.id,
+                                'category',
+                                category.id
+                              ]"
+                            >
+                              {{ category.title }}
+                            </a>
+                          </ng-container>
+                        </li>
+                      </ng-container>
+                    </ul>
+                  </ng-container>
+                  <!-- Si la leçon n'a pas de catégories, afficher un lien direct -->
+                  <ng-container
+                    *ngIf="!(lesson.children && lesson.children.length > 0)"
+                  >
+                    <a
+                      [routerLink]="['/classes', class.id, 'lesson', lesson.id]"
+                    >
+                      {{ lesson.title }}
+                    </a>
+                  </ng-container>
+                </li>
+              </ng-container>
+            </ul>
+          </ng-container>
+          <!-- Si la classe n'a pas de leçons, afficher un lien direct -->
+          <ng-container *ngIf="!(class.children && class.children.length > 0)">
+            <a [routerLink]="['/classes', class.id]">
+              {{ class.title }}
+            </a>
+          </ng-container>
+        </li>
+      </ng-container>
     </ul>
+
     <mat-nav-list>
-      <a mat-list-item href="#">Item 1</a>
-      <a mat-list-item href="#">Item 2</a>
-      <a mat-list-item href="#">Item 3</a>
+      <a mat-list-item href="#" [routerLink]="['/section-exercice-form']"
+        >Ajouter une section</a
+      >
     </mat-nav-list>
   </mat-sidenav>
 

@@ -28,20 +28,12 @@ import { ExerciceSectionItem } from 'src/app/shared/interfaces/exercices.new';
   standalone: true,
   imports: [CommonModule, MatTabsModule, FillTheBlanksByTypeComponent],
   templateUrl: 'subject-detail.component.html',
-  // template: ` <h2>Détails de la matière {{ subjectId }}</h2> `,
 })
 export class SubjectDetailComponent implements OnInit {
   classId: number;
   subjectId: number;
   lessonId: number;
-  // subject: CategoryItem | null;
   exercicesSectionList: ExerciceSectionItem[] = [];
-  /*conjugaisonList: ExerciceSectionItem[] = [
-    conjugaisonEx1,
-    conjugaisonEx2,
-    conjugaisonEx3,
-  ];
-  orthographeList: ExerciceSectionItem[] = [AdjectifsExercices];*/
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -52,21 +44,9 @@ export class SubjectDetailComponent implements OnInit {
     this.classId = Number(this.route.snapshot.paramMap.get('classId'));
     this.subjectId = Number(this.route.snapshot.paramMap.get('subjectId'));
     this.lessonId = Number(this.route.snapshot.paramMap.get('lessonId'));
-    /*
-    this.subject = UTILS.findById<CategoryItem>(subjectsList, this.subjectId);
-    this.lesson = UTILS.findById<CategoryItem>(subjectsList, this.lessonId);
 
-    if (this.lesson?.alias === 'conjugaison') {
-      this.lesson.exercices = this.conjugaisonList;
-    }
-
-    if (this.lesson?.alias === 'orthographe') {
-      this.lesson.exercices = this.orthographeList;
-    }
-*/
     this.exerciceSectionService.getExercicesBySection().subscribe({
       next: (data: ExerciceSectionItem[]) => {
-        console.log('all section with exercices data : ', data);
         this.exercicesSectionList = data;
       },
       error: (error) => {
@@ -96,18 +76,5 @@ export class SubjectDetailComponent implements OnInit {
       this.subjectId,
       this.lessonId
     );
-    // Ajoutez ici la logique pour appeler votre service et charger les données
-    /*
-    this.subject = UTILS.findById<CategoryItem>(subjectsList, this.subjectId);
-    this.lesson = UTILS.findById<CategoryItem>(subjectsList, this.lessonId);
-
-    if (this.lesson?.alias === 'conjugaison') {
-      this.lesson.exercices = this.conjugaisonList;
-    }
-
-    if (this.lesson?.alias === 'orthographe') {
-      this.lesson.exercices = this.orthographeList;
-    }
-      */
   }
 }
