@@ -14,14 +14,14 @@ import { ExerciceSectionService } from 'src/app/shared/services/exercices-sectio
 import { ExerciceService } from 'src/app/shared/services/exercices.service';
 
 @Component({
-  selector: 'app-exercices-form',
+  selector: 'app-exercice-form',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './exercice-form.component.html',
   styleUrls: ['./exercice-form.component.css'],
 })
 export class ExerciceFormComponent implements OnInit {
-  exerciseForm: FormGroup;
+  exerciceForm: FormGroup;
   sections: any[] = [];
 
   private exercicesService = inject(ExerciceService);
@@ -29,7 +29,7 @@ export class ExerciceFormComponent implements OnInit {
   private router = inject(Router);
 
   constructor(private fb: FormBuilder) {
-    this.exerciseForm = this.fb.group({
+    this.exerciceForm = this.fb.group({
       type: ['fill-in-the-blank', [Validators.required]],
       question: ['', [Validators.required]],
       correct_answer: ['', [Validators.required]],
@@ -41,7 +41,7 @@ export class ExerciceFormComponent implements OnInit {
     });
 
     // Gérer l'affichage dynamique des options selon le type
-    this.exerciseForm.get('type')?.valueChanges.subscribe((value) => {
+    this.exerciceForm.get('type')?.valueChanges.subscribe((value) => {
       if (value === 'multiple-choice') {
         this.addOption(); // Ajouter au moins une option par défaut
       } else {
@@ -63,7 +63,7 @@ export class ExerciceFormComponent implements OnInit {
 
   // Getter pour récupérer le FormArray "options"
   get options(): FormArray {
-    return this.exerciseForm.get('options') as FormArray;
+    return this.exerciceForm.get('options') as FormArray;
   }
 
   // Ajouter une nouvelle option
@@ -81,12 +81,12 @@ export class ExerciceFormComponent implements OnInit {
     this.options.clear();
   }
 
-  createExercise() {
-    if (this.exerciseForm.valid) {
-      this.exercicesService.createExercise(this.exerciseForm.value).subscribe(
+  createExercice() {
+    if (this.exerciceForm.valid) {
+      this.exercicesService.createExercice(this.exerciceForm.value).subscribe(
         (response) => {
           alert('Exercice créé avec succès !');
-          this.exerciseForm.reset();
+          this.exerciceForm.reset();
           this.router.navigate(['/']); // Redirection après création
         },
         (error) => {

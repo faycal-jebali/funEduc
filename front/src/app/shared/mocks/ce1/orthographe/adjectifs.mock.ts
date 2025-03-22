@@ -1,10 +1,10 @@
 import { Title } from '@angular/platform-browser';
 import {
-  Exercise,
+  Exercice,
   ExerciceSectionItem,
 } from 'src/app/shared/interfaces/exercice';
 
-export const exercice1: Exercise[] = [
+export const exercice1: Exercice[] = [
   {
     type: 'matching',
     correctAnswer: {

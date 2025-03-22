@@ -1,6 +1,6 @@
-<div class="create-exercise">
+<div class="create-exercice">
   <h2>Créer un Exercice</h2>
-  <form [formGroup]="exerciseForm" (ngSubmit)="createExercise()">
+  <form [formGroup]="exerciceForm" (ngSubmit)="createExercice()">
     <label for="question">Question :</label>
     <input id="question" formControlName="question" type="text" />
 
@@ -14,7 +14,7 @@
     </select>
 
     <!-- Gestion dynamique des options -->
-    <div *ngIf="exerciseForm.get('type')?.value === 'multiple-choice'">
+    <div *ngIf="exerciceForm.get('type')?.value === 'multiple-choice'">
       <label>Options :</label>
       <div formArrayName="options">
         <div *ngFor="let option of options.controls; let i = index">
@@ -42,7 +42,7 @@
     <label for="explanation">Explication (facultatif) :</label>
     <textarea id="explanation" formControlName="explanation"></textarea>
 
-    <button type="submit" [disabled]="exerciseForm.invalid">
+    <button type="submit" [disabled]="exerciceForm.invalid">
       ✅ Créer Exercice
     </button>
   </form>

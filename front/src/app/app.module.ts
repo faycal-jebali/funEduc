@@ -9,6 +9,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTabsModule } from '@angular/material/tabs';
 import { SidebarComponent } from './shared/components/sidebar/sidebar.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,6 +28,13 @@ import { HttpClientModule } from '@angular/common/http';
     MatTabsModule,
     SidebarComponent,
     HttpClientModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    ReactiveFormsModule,
+    FlexLayoutModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,9 +1,9 @@
 import {
-  Exercise,
+  Exercice,
   ExerciceSectionItem,
 } from 'src/app/shared/interfaces/exercice';
 
-export const ex1: Exercise[] = [
+export const ex1: Exercice[] = [
   {
     type: 'multiple-choice',
     sentence: 'Marie _______ un gâteau.',
@@ -66,7 +66,7 @@ export const ex1: Exercise[] = [
   },
 ];
 
-export const ex2: Exercise[] = [
+export const ex2: Exercice[] = [
   {
     type: 'multiple-choice',
     sentence: 'Le chat _______ sur le canapé.',
@@ -105,7 +105,7 @@ export const ex2: Exercise[] = [
   },
 ];
 
-export const ex3: Exercise[] = [
+export const ex3: Exercice[] = [
   {
     type: 'fill-in-the-blank',
     sentence: "Nous ______ à l'école. (être)",

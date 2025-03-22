@@ -1,4 +1,3 @@
-@import "~bootstrap/dist/css/bootstrap.min.css";
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
 .nav-menu {
   li {
@@ -21,4 +20,15 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.grid-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.item-class {
+  border: 2px solid #ff4081;
+  padding: 10px;
 }
