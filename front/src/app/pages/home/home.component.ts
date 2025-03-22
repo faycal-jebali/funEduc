@@ -6,12 +6,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { DictationComponent } from 'src/app/shared/components/dictation/dictation.component';
-import {
-  faCheckCircle,
-  faHome,
-  faTrash,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-home',
@@ -23,17 +17,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatMenuModule,
     MatButtonModule,
     DictationComponent,
-    FontAwesomeModule,
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
   fullStructure: any;
-  // Déclaration des icônes
-  faHome = faHome;
-  faTrash = faTrash;
-  faCheckCircle = faCheckCircle;
   constructor(
     private readonly fullStructureSubjectsService: FullStructureSubjectsService,
     private readonly router: Router
