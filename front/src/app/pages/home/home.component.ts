@@ -23,7 +23,6 @@ import { DictationComponent } from 'src/app/shared/components/dictation/dictatio
 })
 export class HomeComponent {
   fullStructure: any;
-
   constructor(
     private readonly fullStructureSubjectsService: FullStructureSubjectsService,
     private readonly router: Router
