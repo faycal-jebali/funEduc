@@ -2,16 +2,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExerciceService {
-  // private apiUrl = 'http://localhost:3000/api';
-  /*  private apiUrlBack =
-    'https://backend-8uu8kza53-creoxys-projects.vercel.app/api/exercices';*/
-
-  private apiUrl = 'https://backend-teal-zeta.vercel.app/api';
+  private apiUrl = environment.apiUrl;
   private apiKey = '01234567890';
 
   constructor(private http: HttpClient) {}

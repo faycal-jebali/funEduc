@@ -10,10 +10,76 @@ const exerciceTable = "exercices_funeduc";
 
 /**
  * @swagger
- * /api/createSection:
+ * components:
+ *   securitySchemes:
+ *     apiKey:
+ *       type: apiKey
+ *       in: header
+ *       name: x-api-key
+ *
+ * security:
+ *   - apiKey: []
+ *
+ * servers:
+ *   - url: http://localhost:3000
+ *     description: Serveur de développement
+ *
+ * /api/section-exercice:
+ *   get:
+ *     summary: Récupérer une ou plusieurs sections
+ *     description: >
+ *       Récupère une section et ses exercices si `sectionId` est fourni.
+ *       Sinon, récupère toutes les sections avec des filtres optionnels (`class_id`, `category`, `course`).
+ *     tags:
+ *       - Sections
+ *     security:
+ *       - apiKey: []
+ *     parameters:
+ *       - name: sectionId
+ *         in: query
+ *         required: false
+ *         schema:
+ *           type: string
+ *         description: ID de la section (si fourni, récupère une seule section et ses exercices).
+ *       - name: class_id
+ *         in: query
+ *         required: false
+ *         schema:
+ *           type: string
+ *         description: Filtrer par classe.
+ *       - name: category
+ *         in: query
+ *         required: false
+ *         schema:
+ *           type: string
+ *         description: Filtrer par catégorie.
+ *       - name: course
+ *         in: query
+ *         required: false
+ *         schema:
+ *           type: string
+ *         description: Filtrer par cours.
+ *     responses:
+ *       200:
+ *         description: Sections récupérées avec succès.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 sections:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *       400:
+ *         description: Requête invalide.
+ *       401:
+ *         description: Clé API invalide.
+ *       500:
+ *         description: Erreur interne du serveur.
+ *
  *   post:
  *     summary: Créer une section et ajouter des exercices associés
- *     description: Endpoint permettant de créer une nouvelle section avec plusieurs exercices.
  *     tags:
  *       - Sections
  *     security:
@@ -24,84 +90,102 @@ const exerciceTable = "exercices_funeduc";
  *         application/json:
  *           schema:
  *             type: object
- *             required:
- *               - section
- *               - exercices
  *             properties:
  *               section:
  *                 type: object
- *                 required:
- *                   - title
- *                   - created_by
- *                   - class_id
- *                   - lesson_id
- *                   - category_id
- *                   - subLesson_id
  *                 properties:
  *                   title:
  *                     type: string
- *                     example: "Section sur les fractions"
- *                   description:
- *                     type: string
- *                     example: "Introduction aux fractions"
- *                   class_id:
- *                     type: integer
- *                     example: 3
- *                   lesson_id:
- *                     type: integer
- *                     example: 5
- *                   category_id:
- *                     type: integer
- *                     example: 2
- *                   subLesson_id:
- *                     type: integer
- *                     example: 1
- *                   created_by:
- *                     type: string
- *                     example: "admin"
  *               exercices:
  *                 type: array
  *                 items:
  *                   type: object
- *                   required:
- *                     - title
- *                     - content
  *                   properties:
- *                     title:
+ *                     question:
  *                       type: string
- *                       example: "Exercice 1"
- *                     content:
+ *                     answer:
  *                       type: string
- *                       example: "Trouver la valeur de x dans 3x + 2 = 8"
  *     responses:
  *       201:
  *         description: Section et exercices créés avec succès.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Section et exercices créés avec succès."
- *                 sectionId:
- *                   type: integer
- *                   example: 123
  *       400:
- *         description: Données invalides
+ *         description: Données invalides.
  *       401:
- *         description: Clé API invalide
+ *         description: Clé API invalide.
  *       500:
- *         description: Erreur interne du serveur
+ *         description: Erreur interne du serveur.
+ *
+ *   put:
+ *     summary: Modifier une section et ses exercices
+ *     tags:
+ *       - Sections
+ *     security:
+ *       - apiKey: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               sectionId:
+ *                 type: string
+ *               section:
+ *                 type: object
+ *                 properties:
+ *                   title:
+ *                     type: string
+ *               exercices:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     question:
+ *                       type: string
+ *                     answer:
+ *                       type: string
+ *     responses:
+ *       200:
+ *         description: Section et exercices mis à jour avec succès.
+ *       400:
+ *         description: Données invalides.
+ *       401:
+ *         description: Clé API invalide.
+ *       500:
+ *         description: Erreur interne du serveur.
+ *
+ *   delete:
+ *     summary: Supprimer une section et ses exercices
+ *     tags:
+ *       - Sections
+ *     security:
+ *       - apiKey: []
+ *     parameters:
+ *       - name: sectionId
+ *         in: query
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Section et exercices supprimés avec succès.
+ *       400:
+ *         description: sectionId est requis.
+ *       401:
+ *         description: Clé API invalide.
+ *       500:
+ *         description: Erreur interne du serveur.
  */
 
 export default async function handler(req, res) {
   if (req.method === "OPTIONS") {
     res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+    res.setHeader(
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, DELETE, OPTIONS"
+    );
     res.setHeader("Access-Control-Allow-Headers", "Content-Type, x-api-key");
-    res.status(204).end();
-    return;
+    return res.status(204).end();
   }
 
   const apiKey = req.headers["x-api-key"];
@@ -110,9 +194,56 @@ export default async function handler(req, res) {
   }
 
   try {
-    if (req.method === "POST") {
-      const { section, exercices } = req.body;
+    //GET ONE or ALL
+    if (req.method === "GET") {
+      const { sectionId, class_id: sectionClass } = req.query;
 
+      // 🔹 Si sectionId est fourni, on récupère une seule section avec ses exercices
+      if (sectionId) {
+        const { data: section, error: sectionError } = await supabase
+          .from(sectionTable)
+          .select("*")
+          .eq("id", sectionId)
+          .single();
+
+        if (sectionError || !section) {
+          return res.status(404).json({ error: "Section non trouvée." });
+        }
+
+        const { data: exercices, error: exerciceError } = await supabase
+          .from(exerciceTable)
+          .select("*")
+          .eq("section_id", sectionId);
+
+        if (exerciceError) throw exerciceError;
+
+        return res.status(200).json({ section, exercices });
+      }
+
+      // 🔹 Sinon, on récupère toutes les sections avec filtres (facultatifs)
+      let query = supabase.from(sectionTable).select("*");
+
+      // if (category) query = query.eq("category", category);
+      if (sectionClass) query = query.eq("class_id", sectionClass);
+      // if (course) query = query.eq("course", course);
+
+      const { data: sections, error } = await query;
+
+      if (error) {
+        console.error("Erreur récupération sections :", error.message);
+        return res.status(500).json({ error: "Erreur interne du serveur" });
+      }
+
+      return res.status(200).json({ sections });
+    }
+
+    // POST
+    if (req.method === "POST") {
+      //const { section, exercices } = req.body;
+      const section = req.body.section;
+      const exercices = req.body.exercices;
+
+      // **Validation des champs obligatoires**
       if (
         !section.title ||
         !section.created_by ||
@@ -125,18 +256,81 @@ export default async function handler(req, res) {
       ) {
         return res.status(400).json({
           error:
-            "Les champs 'title', 'created_by', 'lesson_id', 'category_id', 'sublesson_id' et un tableau 'exercices' sont requis.",
+            "Les champs 'title', 'created_by' , 'lesson_id', 'category_id', 'sublesson_id' et un tableau 'exercices' sont requis.",
         });
       }
 
+      // **Démarrer une transaction pour garantir l'intégrité**
       const { data: sectionData, error: sectionError } = await supabase
         .from(sectionTable)
-        .insert([section])
+        .insert([
+          {
+            title: section.title,
+            description: section.description,
+            class_id: section.class_id,
+            lesson_id: section.lesson_id,
+            category_id: section.category_id,
+            subLesson_id: section.subLesson_id,
+            created_by: "admin",
+          },
+        ])
         .select("id")
         .single();
 
-      if (sectionError) throw sectionError;
+      if (sectionError) {
+        console.error(
+          "Erreur lors de la création de la section:",
+          sectionError
+        );
+        throw sectionError;
+      }
+
       const sectionId = sectionData.id;
+
+      // **Préparer les exercices liés à cette section**
+      const exercicesToInsert = exercices.map((exo) => ({
+        ...exo,
+        section_id: sectionId,
+      }));
+
+      // **Insérer les exercices**
+      const { error: exerciceError } = await supabase
+        .from(exerciceTable)
+        .insert(exercicesToInsert);
+
+      if (exerciceError) {
+        console.error("Erreur lors de l'ajout des exercices:", exerciceError);
+        throw exerciceError;
+      }
+
+      return res.status(201).json({
+        message: "Section et exercices créés avec succès.",
+        sectionId,
+      });
+    }
+
+    // PUT
+    if (req.method === "PUT") {
+      console.log("Requête PUT reçue :", req.body);
+
+      const { sectionId, section, exercices } = req.body;
+
+      if (!sectionId || !section?.title || !Array.isArray(exercices)) {
+        return res.status(400).json({
+          error: `Données invalides section id : ${sectionId} | section.title: ${
+            section?.title
+          } | exercices: ${Array.isArray(exercices)}`,
+        });
+      }
+
+      const { error: sectionError } = await supabase
+        .from(sectionTable)
+        .update(section)
+        .eq("id", sectionId);
+
+      if (sectionError) throw sectionError;
+
+      await supabase.from(exerciceTable).delete().eq("section_id", sectionId);
 
       const exercicesToInsert = exercices.map((exo) => ({
         ...exo,
@@ -149,17 +343,59 @@ export default async function handler(req, res) {
 
       if (exerciceError) throw exerciceError;
 
-      return res.status(201).json({
-        message: "Section et exercices créés avec succès.",
-        sectionId,
-      });
+      return res
+        .status(200)
+        .json({ message: "Section et exercices mis à jour avec succès." });
     }
 
-    res.setHeader("Allow", ["POST", "OPTIONS"]);
-    res.status(405).end(`Méthode ${req.method} non autorisée`);
+    // DELETE
+    if (req.method === "DELETE") {
+      const { sectionId } = req.query;
+
+      if (!sectionId) {
+        return res
+          .status(400)
+          .json({ error: "Le paramètre 'sectionId' est requis." });
+      }
+
+      // Supprimer les exercices liés
+      const { error: exerciceError } = await supabase
+        .from(exerciceTable)
+        .delete()
+        .eq("section_id", sectionId);
+
+      if (exerciceError) {
+        console.error("Erreur suppression exercices:", exerciceError);
+        return res
+          .status(500)
+          .json({ error: "Erreur lors de la suppression des exercices." });
+      }
+
+      // Supprimer la section
+      const { error: sectionError } = await supabase
+        .from(sectionTable)
+        .delete()
+        .eq("id", sectionId);
+
+      if (sectionError) {
+        console.error("Erreur suppression section:", sectionError);
+        return res
+          .status(500)
+          .json({ error: "Erreur lors de la suppression de la section." });
+      }
+
+      return res
+        .status(200)
+        .json({ message: "Section et exercices supprimés avec succès." });
+    }
+
+    res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE", "OPTIONS"]);
+    return res
+      .status(405)
+      .json({ error: `Méthode ${req.method} non autorisée` });
   } catch (error) {
     console.error("Erreur API :", error.message);
-    res
+    return res
       .status(500)
       .json({ error: "Erreur interne du serveur", details: error.message });
   }

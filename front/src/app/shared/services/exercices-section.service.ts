@@ -8,8 +8,6 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class ExerciceSectionService {
-  // private apiUrl = 'http://localhost:3000/api';
-  // private apiUrl = 'https://backend-teal-zeta.vercel.app/api';
   private apiUrl = environment.apiUrl;
   private apiKey = '01234567890';
   private headers = new HttpHeaders({

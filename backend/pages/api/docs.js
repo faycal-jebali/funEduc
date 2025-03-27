@@ -16,7 +16,7 @@ export default function handler(req, res) {
           description: "Serveur de développement",
         },
         {
-          url: "https://ton-projet.vercel.app",
+          url: "https://backend-teal-zeta.vercel.app/api",
           description: "Serveur de production",
         },
       ],

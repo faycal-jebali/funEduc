@@ -33,6 +33,12 @@ ng build:prod
 
 ngh --dir=dist
 
+## Deploiement VERCEL BACK
+
+vercel
+
+vercel --prod
+
 ## OPen Build localy
 
 npm install -g http-server

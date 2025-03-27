@@ -7,7 +7,10 @@ export function middleware(req) {
   if (req.method === "OPTIONS") {
     const response = new NextResponse(null, { status: 204 });
     response.headers.set("Access-Control-Allow-Origin", "*");
-    response.headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    response.headers.set(
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, DELETE, OPTIONS"
+    );
     response.headers.set(
       "Access-Control-Allow-Headers",
       "Content-Type, x-api-key"
@@ -17,7 +20,10 @@ export function middleware(req) {
 
   // Appliquer les en-têtes CORS
   res.headers.set("Access-Control-Allow-Origin", "*");
-  res.headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.headers.set(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, OPTIONS"
+  );
   res.headers.set("Access-Control-Allow-Headers", "Content-Type, x-api-key");
 
   return res;
