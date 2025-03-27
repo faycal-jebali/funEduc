@@ -1,5 +1,6 @@
 <div class="section-exercice-container">
-  <h1>Créer une Section et ses Exercices</h1>
+  <h1 *ngIf="!isEditing">Créer une Section et ses Exercices</h1>
+  <h1 *ngIf="isEditing">Modifier une Section et ses Exercices</h1>
   <form [formGroup]="form" (ngSubmit)="submit()">
     <!-- Formulaire de la section -->
     <h2 class="primary-color">Section</h2>

@@ -22,14 +22,6 @@ export const routes: Routes = [
         './pages/exercices-section/section-form/section-form.component'
       ).then((m) => m.SectionFormComponent),
   },
-
-  {
-    path: 'section-form/:sectionId',
-    loadComponent: () =>
-      import(
-        './pages/exercices-section/section-form/section-form.component'
-      ).then((m) => m.SectionFormComponent),
-  },
   {
     path: 'exercice-form',
     loadComponent: () =>
@@ -43,6 +35,20 @@ export const routes: Routes = [
       import(
         './pages/exercices-section/section-exercices-form/section-exercices-form.component'
       ).then((m) => m.SectionExercicesFormComponent),
+  },
+  {
+    path: 'section-exercice-form/:sectionId',
+    loadComponent: () =>
+      import(
+        './pages/exercices-section/section-exercices-form/section-exercices-form.component'
+      ).then((m) => m.SectionExercicesFormComponent),
+  },
+  {
+    path: 'my-space/sections',
+    loadComponent: () =>
+      import('./pages/my-space/sections-list/sections-list.component').then(
+        (m) => m.SectionsListComponent
+      ),
   },
   {
     path: 'classes',

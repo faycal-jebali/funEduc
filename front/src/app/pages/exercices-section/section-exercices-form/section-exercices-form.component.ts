@@ -8,7 +8,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ExerciceSectionService } from 'src/app/shared/services/exercices-section.service';
 import { ExerciceService } from 'src/app/shared/services/exercices.service';
 import { UserRole } from 'src/app/shared/interfaces/exercices.new';
@@ -18,7 +18,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-section-exercice-form',
   standalone: true,
@@ -36,15 +38,17 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class SectionExercicesFormComponent implements OnInit {
   form: FormGroup;
-  fullStructure: any[] = []; // Pour stocker la structure des leçons
-  courses: any[] = []; // Pour stocker la structure des leçons
-  selectedClassId: string = ''; // ID de la classe sélectionnée
-  selectedCourseId: string = ''; // ID de la leçon sélectionnée
-  selectedCategoryId: string = ''; // ID de la catégorie sélectionnée
-  selectedSubLessonId: string = ''; // ID de la sous-leçon sélectionnée
-  selectedClass: any = null; // Détails de la classe sélectionnée
-  selectedCourse: any = null; // Détails de la leçon sélectionnée
-  selectedCategory: any = null; // Détails de la catégorie sélectionnée
+  fullStructure: any[] = [];
+  courses: any[] = [];
+  sectionId: string | null = null;
+  isEditing = false;
+
+  selectedClassId: string = '';
+  selectedCourseId: string = '';
+  selectedCategoryId: string = '';
+  selectedClass: any = null;
+  selectedCourse: any = null;
+  selectedCategory: any = null;
 
   private exercicesService = inject(ExerciceService);
   private exerciceSectionService = inject(ExerciceSectionService);
@@ -52,19 +56,20 @@ export class SectionExercicesFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private readonly fullStructureSubjectsService: FullStructureSubjectsService
+    private readonly fullStructureSubjectsService: FullStructureSubjectsService,
+    private readonly activatedRoute: ActivatedRoute
   ) {
     this.form = this.fb.group({
       section: this.fb.group({
         title: ['', Validators.required],
         description: [''],
-        created_by: [UserRole.ADMIN], // TODO to be dynamic
-        class_id: ['', Validators.required], // Sélection de la classe
-        lesson_id: ['', Validators.required], // Sélection de la leçon
-        category_id: ['', Validators.required], // Sélection de la catégorie
-        subLesson_id: ['', Validators.required], // Sélection de la sous-leçon
+        created_by: [UserRole.ADMIN],
+        class_id: ['', Validators.required],
+        lesson_id: ['', Validators.required],
+        category_id: ['', Validators.required],
+        subLesson_id: ['', Validators.required],
       }),
-      exercices: this.fb.array([]), // Liste des exercices
+      exercices: this.fb.array([]),
     });
 
     this.onLessonChange();
@@ -74,6 +79,14 @@ export class SectionExercicesFormComponent implements OnInit {
 
   ngOnInit() {
     this.getStructureSubjects();
+
+    this.activatedRoute.paramMap.subscribe((params) => {
+      this.sectionId = params.get('sectionId');
+      if (this.sectionId) {
+        this.isEditing = true;
+        this.loadSectionData(this.sectionId);
+      }
+    });
   }
 
   getStructureSubjects(): void {
@@ -81,135 +94,169 @@ export class SectionExercicesFormComponent implements OnInit {
       next: (data) => {
         this.fullStructure = data;
         this.courses = data;
-        console.log('this.courses : ', this.courses);
       },
       error: (err) => {
         console.error('Erreur lors du chargement des leçons:', err);
       },
     });
   }
+
+  // Charger les données de la section en mode édition
+  loadSectionData(sectionId: string) {
+    this.exerciceSectionService.getSectionWithExercices(sectionId).subscribe({
+      next: (data) => {
+        this.form.patchValue({ section: data.section });
+
+        // Gestion des sélections dynamiques
+        this.selectedClassId = data.section.class_id;
+        this.selectedClass = this.fullStructure.find(
+          (classe) => classe.id === this.selectedClassId
+        );
+
+        this.selectedCourseId = data.section.lesson_id;
+        this.selectedCourse = this.selectedClass?.children.find(
+          (course: any) => course.id === this.selectedCourseId
+        );
+
+        this.selectedCategoryId = data.section.category_id;
+        this.selectedCategory = this.selectedCourse?.children.find(
+          (category: any) => category.id === this.selectedCategoryId
+        );
+
+        // Remplissage des exercices
+        this.exercices.clear();
+        data.exercices.forEach((exercice: any) => {
+          this.exercices.push(this.createExerciceForm(exercice));
+        });
+      },
+      error: (err) => {
+        console.error('Erreur lors du chargement de la section:', err);
+      },
+    });
+  }
+
   onClassChange(): void {
     this.form
-      ?.get('section')
-      ?.get('class_id')
-      ?.valueChanges.subscribe({
-        next: (data) => {
-          this.selectedClassId = data;
-
-          this.selectedClass = this.fullStructure.find(
-            (classe) => classe.id === this.selectedClassId
-          );
-          console.log('this.selectedClass  : ', this.selectedClass);
-
-          this.selectedCourseId = ''; // Réinitialiser la lesson
-          this.selectedCategoryId = ''; // Réinitialiser la catégorie
-          this.selectedSubLessonId = ''; // Réinitialiser la sous-leçon
-          this.selectedCategory = null; // Réinitialiser la catégorie sélectionnée
-        },
+      .get('section.class_id')
+      ?.valueChanges.pipe(untilDestroyed(this))
+      .subscribe((data) => {
+        this.selectedClassId = data;
+        this.selectedClass = this.fullStructure.find(
+          (classe) => classe.id === this.selectedClassId
+        );
+        this.selectedCourseId = '';
+        this.selectedCategoryId = '';
+        this.selectedCourse = null;
+        this.selectedCategory = null;
       });
   }
 
-  // Mettre à jour la catégorie sélectionnée en fonction de la leçon
   onLessonChange(): void {
     this.form
-      ?.get('section')
-      ?.get('lesson_id')
-      ?.valueChanges.subscribe({
-        next: (data) => {
-          this.selectedCourseId = data;
-          console.log('selectedCourseId : ', this.selectedCourseId);
-
-          this.selectedCourse = this.selectedClass.children.find(
-            (course: any) => course.id === this.selectedCourseId
-          );
-
-          console.log('this.selectedCourse  : ', this.selectedCourse);
-
-          this.selectedCategoryId = ''; // Réinitialiser la sous-leçon
-          this.selectedSubLessonId = ''; // Réinitialiser la sous-leçon
-        },
+      .get('section.lesson_id')
+      ?.valueChanges.pipe(untilDestroyed(this))
+      .subscribe((data) => {
+        this.selectedCourseId = data;
+        this.selectedCourse = this.selectedClass?.children.find(
+          (course: any) => course.id === this.selectedCourseId
+        );
+        this.selectedCategoryId = '';
+        this.selectedCategory = null;
       });
   }
 
-  // Mettre à jour la sous-leçon sélectionnée en fonction de la catégorie
   onCategoryChange(): void {
     this.form
-      ?.get('section')
-      ?.get('category_id')
-      ?.valueChanges.subscribe({
-        next: (data) => {
-          this.selectedCategoryId = data;
-
-          this.selectedCategory = this.selectedCourse?.children.find(
-            (category: any) => category.id === this.selectedCategoryId
-          );
-          this.selectedSubLessonId = ''; // Réinitialiser la sous-leçon
-        },
+      .get('section.category_id')
+      ?.valueChanges.pipe(untilDestroyed(this))
+      .subscribe((data) => {
+        this.selectedCategoryId = data;
+        this.selectedCategory = this.selectedCourse?.children.find(
+          (category: any) => category.id === this.selectedCategoryId
+        );
       });
   }
 
-  // Getter pour récupérer les exercices
   get exercices(): FormArray {
     return this.form.get('exercices') as FormArray;
   }
 
-  // Ajouter un exercice
   addExercice() {
     this.exercices.push(this.createExerciceForm());
   }
 
-  // Supprimer un exercice
   removeExercice(index: number) {
     this.exercices.removeAt(index);
   }
 
-  // Créer un formulaire d'exercice
-  private createExerciceForm(): FormGroup {
+  private createExerciceForm(exerciceData: any = {}): FormGroup {
     return this.fb.group({
-      type: ['fill-in-the-blank', Validators.required],
-      consigne: [''],
-      question: ['', Validators.required],
-      correct_answer: ['', Validators.required],
-      options: this.fb.array([]), // Options dynamiques pour les questions à choix multiple
-      explanation: [''],
-      difficulty: ['easy', Validators.required],
-      section_id: [''],
+      type: [exerciceData.type || 'fill-in-the-blank', Validators.required],
+      consigne: [exerciceData.consigne || ''],
+      question: [exerciceData.question || '', Validators.required],
+      correct_answer: [exerciceData.correct_answer || '', Validators.required],
+      options: this.fb.array(
+        exerciceData.options
+          ? exerciceData.options.map((opt: string) => new FormControl(opt))
+          : []
+      ),
+      explanation: [exerciceData.explanation || ''],
+      difficulty: [exerciceData.difficulty || 'easy', Validators.required],
+      section_id: [exerciceData.section_id || ''],
     });
   }
 
-  // Getter pour récupérer les options d'un exercice donné
   getOptions(exerciceIndex: number): FormArray {
     return this.exercices.at(exerciceIndex).get('options') as FormArray;
   }
 
-  // Ajouter une option à un exercice spécifique
   addOption(exerciceIndex: number) {
     this.getOptions(exerciceIndex).push(
       new FormControl('', Validators.required)
     );
   }
 
-  // Supprimer une option d'un exercice spécifique
   removeOption(exerciceIndex: number, optionIndex: number) {
     this.getOptions(exerciceIndex).removeAt(optionIndex);
   }
 
-  // Soumettre le formulaire
   submit() {
     if (this.form.valid) {
-      this.exerciceSectionService
-        .createSectionWithExercices(this.form.value)
-        .subscribe({
-          next: () => {
-            alert('Section et exercices créés avec succès !');
-          },
-          error: (error) => {
-            alert("Erreur lors de l'enregistrement.");
-            console.error(error);
-          },
-        });
+      if (this.isEditing && this.sectionId) {
+        this.updateSection(this.sectionId, this.form.value);
+      } else {
+        this.createSection(this.form.value);
+      }
     } else {
       alert('Veuillez remplir tous les champs requis.');
     }
+  }
+
+  private createSection(data: any) {
+    this.exerciceSectionService.createSectionWithExercices(data).subscribe({
+      next: () => {
+        alert('Section et exercices créés avec succès !');
+        this.router.navigate(['/my-space/sections']);
+      },
+      error: (error) => {
+        alert("Erreur lors de l'enregistrement.");
+        console.error(error);
+      },
+    });
+  }
+
+  private updateSection(sectionId: string, data: any) {
+    this.exerciceSectionService
+      .updateSectionWithExercices(sectionId, data)
+      .subscribe({
+        next: () => {
+          alert('Section et exercices mis à jour avec succès !');
+          this.router.navigate(['/my-space/sections']);
+        },
+        error: (error) => {
+          alert('Erreur lors de la mise à jour.');
+          console.error(error);
+        },
+      });
   }
 }
