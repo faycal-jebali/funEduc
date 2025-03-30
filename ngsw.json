@@ -1,0 +1,97 @@
+{
+  "configVersion": 1,
+  "timestamp": 1743297298858,
+  "index": "/funEduc/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/funEduc/102.489894b59b9a7ba6.js",
+        "/funEduc/247.a603a1f3877e1890.js",
+        "/funEduc/391.20b91788314b8572.js",
+        "/funEduc/494.e9db4634953781d8.js",
+        "/funEduc/629.f0b27d01b574b66e.js",
+        "/funEduc/855.c4ea570bcca56b99.js",
+        "/funEduc/957.cb6e63a99404b7bf.js",
+        "/funEduc/common.efde6095a8a52fe3.js",
+        "/funEduc/favicon.ico",
+        "/funEduc/index.html",
+        "/funEduc/main.ea022b3d6e64f564.js",
+        "/funEduc/manifest.webmanifest",
+        "/funEduc/polyfills.5d3b39ac76756a99.js",
+        "/funEduc/runtime.30dda5870d8e2d6e.js",
+        "/funEduc/styles.0e46b10adc24d074.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/funEduc/assets/icons/icon-128x128.png",
+        "/funEduc/assets/icons/icon-144x144.png",
+        "/funEduc/assets/icons/icon-152x152.png",
+        "/funEduc/assets/icons/icon-192x192.png",
+        "/funEduc/assets/icons/icon-384x384.png",
+        "/funEduc/assets/icons/icon-512x512.png",
+        "/funEduc/assets/icons/icon-72x72.png",
+        "/funEduc/assets/icons/icon-96x96.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/funEduc/102.489894b59b9a7ba6.js": "733c1abb5393a7f3878c0ec253cbca49bea2c0fd",
+    "/funEduc/247.a603a1f3877e1890.js": "202c6ca158310f05088ff2e00b46f67c285cabb8",
+    "/funEduc/391.20b91788314b8572.js": "749d325be84d3c9764ee6ec9a8214f3d2000375b",
+    "/funEduc/494.e9db4634953781d8.js": "132a4f6705af1a592d5a4673351ac440abaff1c0",
+    "/funEduc/629.f0b27d01b574b66e.js": "edee4e748016aacf71d948e33b060c730a8d174b",
+    "/funEduc/855.c4ea570bcca56b99.js": "a6fc52328af49388f3a3653d08a034b09ce36b24",
+    "/funEduc/957.cb6e63a99404b7bf.js": "208f6c96258d1384411ce05cc81320612c7391bb",
+    "/funEduc/assets/icons/icon-128x128.png": "b1f06c7d714abb4a0cc4d1f7c954feb26826e4c4",
+    "/funEduc/assets/icons/icon-144x144.png": "96a0d629765c1bc85d9263c6bc83094ca776d267",
+    "/funEduc/assets/icons/icon-152x152.png": "b1fbbee3902eb96a7658e3bb006f31f78ca5a44c",
+    "/funEduc/assets/icons/icon-192x192.png": "e4211163bf0911688fbfb80278d8ff4d2f77691d",
+    "/funEduc/assets/icons/icon-384x384.png": "329749cd6393768d3131ed6304c136b1ca05f2fd",
+    "/funEduc/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
+    "/funEduc/assets/icons/icon-72x72.png": "279825a1ac4377032ae996a1832c641e33ccf1b6",
+    "/funEduc/assets/icons/icon-96x96.png": "592885efcbfee27e5e20be4fa3043589390d2740",
+    "/funEduc/common.efde6095a8a52fe3.js": "c68478db3c445dde3f77983f52599a0b012065d8",
+    "/funEduc/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
+    "/funEduc/index.html": "4bfa9b7a14b65c2fab21e7ece2e44c7d824bb1d8",
+    "/funEduc/main.ea022b3d6e64f564.js": "06f5778bbdc5111d554b914aeae25196efc0aa13",
+    "/funEduc/manifest.webmanifest": "4a17033d41b19f97cc660c6a603fdc95226d1704",
+    "/funEduc/polyfills.5d3b39ac76756a99.js": "700f884bbd8679c961ba731ed21f203f647d07fd",
+    "/funEduc/runtime.30dda5870d8e2d6e.js": "cddab1e8c3d319f15fae274a8c2fe510f3942c72",
+    "/funEduc/styles.0e46b10adc24d074.css": "97c60272ce2de1f3f846749ff77d33ecd975f3bf"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
