@@ -6,6 +6,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { DictationComponent } from 'src/app/shared/components/dictation/dictation.component';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,7 @@ import { DictationComponent } from 'src/app/shared/components/dictation/dictatio
     MatListModule,
     MatMenuModule,
     MatButtonModule,
-    DictationComponent,
+    MatCardModule,
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],

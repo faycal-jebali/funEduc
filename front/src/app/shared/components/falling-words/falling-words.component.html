@@ -1,0 +1,27 @@
+<div class="game-container">
+  <!-- Pot féminin -->
+  <div class="pot" [ngStyle]="{ left: potFemininePosition + 'px' }">
+    <div class="pot-inner"></div>
+  </div>
+
+  <!-- Pot masculin -->
+  <div class="pot" [ngStyle]="{ left: potMasculinePosition + 'px' }">
+    <div class="pot-inner"></div>
+  </div>
+
+  <!-- Les mots qui tombent -->
+  <div
+    *ngFor="let word of allWords"
+    class="falling-word"
+    [@fallingAnimation]
+    (mousedown)="onWordDropped($event, word)"
+    [ngStyle]="{
+      left: getRandomLeftPosition() + 'px',
+      top: getRandomTopPosition() + 'px'
+    }"
+  >
+    {{ word }}
+  </div>
+
+  <p>Score: {{ score }}</p>
+</div>

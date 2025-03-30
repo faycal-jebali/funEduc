@@ -1,9 +1,10 @@
 <div class="grid-list">
-  <button
-    mat-button
-    *ngFor="let class of fullStructure"
-    (click)="goToClassDetail(class.id)"
-  >
-    {{ class.title }}
-  </button>
+  <mat-card appearance="outlined" *ngFor="let class of fullStructure">
+    <mat-card-content>
+      {{ class.title }}
+      <button mat-button (click)="goToClassDetail(class.id)">
+        {{ class.title }}
+      </button>
+    </mat-card-content>
+  </mat-card>
 </div>

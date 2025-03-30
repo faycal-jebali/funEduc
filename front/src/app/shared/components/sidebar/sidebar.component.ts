@@ -6,6 +6,8 @@ import { MatListModule } from '@angular/material/list';
 import { Router, RouterModule } from '@angular/router';
 import { CategoryItem, subjectsList } from '../../mocks/global.mock';
 import { FullStructureSubjectsService } from '../../services/full-structutre-subjects';
+import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @Component({
   selector: 'app-sidebar',
@@ -16,6 +18,8 @@ import { FullStructureSubjectsService } from '../../services/full-structutre-sub
     MatButtonModule,
     MatListModule,
     RouterModule,
+    MatIconModule,
+    MatBadgeModule,
   ],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
@@ -37,11 +41,26 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
     this.fullStructureSubjectsService.getFullStructureSubjects().subscribe({
       next: (data) => {
-        this.fullStructure = data;
+        // this.fullStructure = data;
+        this.fullStructure = this.sortItems(data);
         console.log('Structure Data : ', data);
       },
     });
   }
+
+  // Fonction récursive pour trier les éléments
+  sortItems(items: any[]) {
+    items.sort((a, b) => a.order - b.order); // Trier par ordre croissant de `order`
+
+    // Pour chaque élément, trier ses enfants, si existants
+    items.forEach((item) => {
+      if (item.children && item.children.length > 0) {
+        this.sortItems(item.children); // Appel récursif pour trier les sous-éléments
+      }
+    });
+    return items;
+  }
+
   // Fonction pour basculer l'état de la sidebar
   toggleSidebar(): void {
     this.isSidebarOpen = !this.isSidebarOpen;

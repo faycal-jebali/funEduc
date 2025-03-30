@@ -1,20 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './pages/home/home.component';
 import { FillTheBlanksComponent } from './shared/components/fill-the-blanks/fill-the-blanks.component';
 import { FillTheBlanksByTypeComponent } from './shared/components/fill-the-blanks-by-type/fill-the-blanks-by-type.component';
-import { AppComponent } from './app.component';
-import { SectionFormComponent } from './pages/exercices-section/section-form/section-form.component';
-import { ExerciceFormComponent } from './pages/exercices-section/exercice-form/exercice-form.component';
-import { SubjectDetailComponent } from './pages/subject-detail/subject-detail.component';
-import { HomeComponent } from './pages/home/home.component';
-import { ClasseDetailComponent } from './pages/classe-detail/classe-detail.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { BrouillonComponent } from './pages/brouillon/brouillon.component';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent }, // Page d'accueil
-  { path: 'devoirs', component: SubjectDetailComponent }, // Page d'accueil
+  { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'task', component: FillTheBlanksComponent },
   { path: 'task-by-type', component: FillTheBlanksByTypeComponent },
-  // { path: '', redirectTo: 'classes', pathMatch: 'full' },
+  { path: 'devoirs', component: HomeComponent }, // Il semble que cette route pointe vers la même page que Home ?
+  { path: 'brouillon', component: BrouillonComponent }, // Il semble que cette route pointe vers la même page que Home ?
+
+  // 📌 Gestion des sections et exercices
   {
     path: 'section-form',
     loadComponent: () =>
@@ -43,55 +42,94 @@ export const routes: Routes = [
         './pages/exercices-section/section-exercices-form/section-exercices-form.component'
       ).then((m) => m.SectionExercicesFormComponent),
   },
+
+  // 📌 Espace personnel
   {
-    path: 'my-space/sections',
-    loadComponent: () =>
-      import('./pages/my-space/sections-list/sections-list.component').then(
-        (m) => m.SectionsListComponent
-      ),
+    path: 'my-space',
+    children: [
+      {
+        path: 'sections',
+        loadComponent: () =>
+          import('./pages/my-space/sections-list/sections-list.component').then(
+            (m) => m.SectionsListComponent
+          ),
+      },
+    ],
   },
+
+  // 📌 Gestion des classes et matières
   {
     path: 'classes',
-    loadComponent: () =>
-      import('./pages/classes-list/classes-list.component').then(
-        (m) => m.ClassesListComponent
-      ),
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./pages/classes-list/classes-list.component').then(
+            (m) => m.ClassesListComponent
+          ),
+      },
+      {
+        path: ':classId',
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./pages/subject-detail/subject-detail.component').then(
+                (m) => m.SubjectDetailComponent
+              ),
+          },
+          {
+            path: 'subjects',
+            children: [
+              {
+                path: '',
+                loadComponent: () =>
+                  import('./pages/subjects-list/subjects-list.component').then(
+                    (m) => m.SubjectsListComponent
+                  ),
+              },
+              {
+                path: ':subjectId',
+                loadComponent: () =>
+                  import(
+                    './pages/subject-detail/subject-detail.component'
+                  ).then((m) => m.SubjectDetailComponent),
+              },
+            ],
+          },
+          {
+            path: 'lesson/:lessonId',
+            children: [
+              {
+                path: 'category/:categoryId',
+                children: [
+                  {
+                    path: '',
+                    loadComponent: () =>
+                      import(
+                        './pages/subject-detail/subject-detail.component'
+                      ).then((m) => m.SubjectDetailComponent),
+                  },
+                  {
+                    path: 'sublesson/:subLessonId',
+                    loadComponent: () =>
+                      import(
+                        './pages/subject-detail/subject-detail.component'
+                      ).then((m) => m.SubjectDetailComponent),
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
   },
-  { path: 'classes/:classId', component: SubjectDetailComponent },
-  {
-    path: 'classes/:classId/subjects',
-    loadComponent: () =>
-      import('./pages/subjects-list/subjects-list.component').then(
-        (m) => m.SubjectsListComponent
-      ),
-  },
-  {
-    path: 'classes/:classId/subjects/:subjectId',
-    loadComponent: () =>
-      import('./pages/subject-detail/subject-detail.component').then(
-        (m) => m.SubjectDetailComponent
-      ),
-  },
-  {
-    path: 'classes/:classId/subjects/:subjectId/lesson/:lessonId',
-    loadComponent: () =>
-      import('./pages/subject-detail/subject-detail.component').then(
-        (m) => m.SubjectDetailComponent
-      ),
-  },
-  {
-    path: 'classes/:classId/lesson/:lessonId/category/:categoryId/sublesson/:subLessonId',
-    loadComponent: () =>
-      import('./pages/subject-detail/subject-detail.component').then(
-        (m) => m.SubjectDetailComponent
-      ),
-  },
+
+  // 📌 Page 404
   {
     path: '**',
-    loadComponent: () =>
-      import('./pages/not-found/not-found.component').then(
-        (m) => m.NotFoundComponent
-      ),
+    component: NotFoundComponent,
   },
 ];
 
