@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1743634376248,
+  "timestamp": 1743635798202,
   "index": "/funEduc/index.html",
   "assetGroups": [
     {
@@ -65,7 +65,7 @@
   "hashTable": {
     "/funEduc/assets/icons/funeduc-logo.ico": "e187787084ee8341276025819dc25f1030a1caba",
     "/funEduc/assets/icons/funeduc-logo.png": "32f18ee496933f4db072fdcfe5d39b12dba9628c",
-    "/funEduc/assets/icons/funeduc-logo.svg": "0fea7257c3991f06c84a4b50050a70e1c1ef39cc",
+    "/funEduc/assets/icons/funeduc-logo.svg": "c8a08e5712df8262defcfc9ac2231054e4e737bf",
     "/funEduc/assets/icons/icon-128x128.png": "b1f06c7d714abb4a0cc4d1f7c954feb26826e4c4",
     "/funEduc/assets/icons/icon-144x144.png": "96a0d629765c1bc85d9263c6bc83094ca776d267",
     "/funEduc/assets/icons/icon-152x152.png": "b1fbbee3902eb96a7658e3bb006f31f78ca5a44c",
