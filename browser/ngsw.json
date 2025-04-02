@@ -1,0 +1,121 @@
+{
+  "configVersion": 1,
+  "timestamp": 1743636434228,
+  "index": "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-4AIEACKI.js",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-6ZS2PUNA.js",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-7IYORUPI.js",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-7V4BNWQR.js",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-DBGFJOJ2.js",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-EQHQ4Y7J.js",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-GJGFDSP2.js",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-GQNX6WZ4.js",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-HJCXVHL5.js",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-J3N4ITXW.js",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-JETPKQHN.js",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-LZHYF3WI.js",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-MUZ3M3VV.js",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-NTFRZC5N.js",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-P55RBNVH.js",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-S45EABLL.js",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-SJWHKNDJ.js",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-SZ624YVI.js",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/favicon.ico",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/index.html",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/main-XEJ566XH.js",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/manifest.webmanifest",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/polyfills-FFHMD2TL.js",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/styles-KE65YLMR.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/assets/icons/funeduc-logo.ico",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/assets/icons/funeduc-logo.png",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/assets/icons/funeduc-logo.svg",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/assets/icons/icon-128x128.png",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/assets/icons/icon-144x144.png",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/assets/icons/icon-152x152.png",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/assets/icons/icon-192x192.png",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/assets/icons/icon-384x384.png",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/assets/icons/icon-512x512.png",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/assets/icons/icon-72x72.png",
+        "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/assets/icons/icon-96x96.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/assets/icons/funeduc-logo.ico": "e187787084ee8341276025819dc25f1030a1caba",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/assets/icons/funeduc-logo.png": "32f18ee496933f4db072fdcfe5d39b12dba9628c",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/assets/icons/funeduc-logo.svg": "c8a08e5712df8262defcfc9ac2231054e4e737bf",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/assets/icons/icon-128x128.png": "b1f06c7d714abb4a0cc4d1f7c954feb26826e4c4",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/assets/icons/icon-144x144.png": "96a0d629765c1bc85d9263c6bc83094ca776d267",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/assets/icons/icon-152x152.png": "b1fbbee3902eb96a7658e3bb006f31f78ca5a44c",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/assets/icons/icon-192x192.png": "e4211163bf0911688fbfb80278d8ff4d2f77691d",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/assets/icons/icon-384x384.png": "329749cd6393768d3131ed6304c136b1ca05f2fd",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/assets/icons/icon-72x72.png": "279825a1ac4377032ae996a1832c641e33ccf1b6",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/assets/icons/icon-96x96.png": "592885efcbfee27e5e20be4fa3043589390d2740",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-4AIEACKI.js": "2aaaa0a25f3dc870437b6a1b0db54ca9b5ddb70d",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-6ZS2PUNA.js": "512bfbe04baf162f11ceae299176061ddd2634cf",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-7IYORUPI.js": "f49e3a645556a399ea49b6ac3590268080b4acc2",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-7V4BNWQR.js": "8d6cb231a801851763dbaa5561b6b0d8704e6855",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-DBGFJOJ2.js": "2b2a3f168aee0ef0ba23468d433ac3f1dbfbbe9e",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-EQHQ4Y7J.js": "6b2934d05f5bf9eef4cd914d71924579c7bcf2fe",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-GJGFDSP2.js": "c7eb01dfbb231f863a29b098a0574dfe5497ec47",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-GQNX6WZ4.js": "f5a3b1605db8d0757183252fd89d8d569952ab0c",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-HJCXVHL5.js": "84fc0d47eb5ae6996a80ee5c8f3ccf9427b93cee",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-J3N4ITXW.js": "a3d98f8f05d3800d8a3b5e20730d3bb88312e80e",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-JETPKQHN.js": "264fb488775bde180daa450c0b38abfb87815111",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-LZHYF3WI.js": "36c87f14837cd504694a508db4aa9d20487ca44a",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-MUZ3M3VV.js": "bac1371ee75cf4acccf5073e816251e07ef38c42",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-NTFRZC5N.js": "f028b57c3cdc80b56e17a86b187bf701a36954ec",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-P55RBNVH.js": "42567ef2f55b3b3525ee413461902d14a0851e9b",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-S45EABLL.js": "84f2a6b6455e16228a4c5d1e577ea558d722c13d",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-SJWHKNDJ.js": "fba21d3081138c9b7db96e263e2ca488500e9a8a",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/chunk-SZ624YVI.js": "1e8d7f2bc8a88c2fc5b43d710024cdf55881e642",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/favicon.ico": "e187787084ee8341276025819dc25f1030a1caba",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/index.html": "876a4ba22e1a27161a5b829bff5d060739073ec5",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/main-XEJ566XH.js": "9bce5a689cd7a65983dde1df65fa03d0f7296b70",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/manifest.webmanifest": "04a7fd6cf71dd0c4582830a5560b9682bfd2f841",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/polyfills-FFHMD2TL.js": "f49b49a155bc7d192db62a4c15d0a612b460a667",
+    "C:/Users/Fayçal/AppData/Local/Programs/Git/funEduc/styles-KE65YLMR.css": "a9410dc23799c4bda2ddec2de3340d81548188e7"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
