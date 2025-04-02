@@ -11,11 +11,10 @@ import { ExerciceSectionService } from 'src/app/shared/services/exercices-sectio
 import { UserRole } from 'src/app/shared/interfaces/exercices.new';
 
 @Component({
-  selector: 'app-section-form',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './section-form.component.html',
-  styleUrls: ['./section-form.component.css'],
+    selector: 'app-section-form',
+    imports: [CommonModule, ReactiveFormsModule],
+    templateUrl: './section-form.component.html',
+    styleUrls: ['./section-form.component.css']
 })
 export class SectionFormComponent {
   sectionForm: FormGroup;

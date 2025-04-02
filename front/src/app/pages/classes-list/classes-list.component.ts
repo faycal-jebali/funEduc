@@ -8,10 +8,9 @@ import {
 } from 'src/app/shared/mocks/global.mock';
 
 @Component({
-  selector: 'app-classes-list',
-  standalone: true,
-  imports: [CommonModule, RouterModule],
-  template: `
+    selector: 'app-classes-list',
+    imports: [CommonModule, RouterModule],
+    template: `
     <h2>Liste des Classes</h2>
     <ul class="nav-menu">
       <li *ngFor="let classe of classes">
@@ -23,7 +22,7 @@ import {
       </li>
     </ul>
   `,
-  styleUrls: ['./classes-list.component.css'],
+    styleUrls: ['./classes-list.component.css']
 })
 export class ClassesListComponent {
   classes: CategoryItem[] = classesList;

@@ -9,18 +9,17 @@ import { DictationComponent } from 'src/app/shared/components/dictation/dictatio
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    MatListModule,
-    MatMenuModule,
-    MatButtonModule,
-    MatCardModule,
-  ],
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+    selector: 'app-home',
+    imports: [
+        CommonModule,
+        RouterModule,
+        MatListModule,
+        MatMenuModule,
+        MatButtonModule,
+        MatCardModule,
+    ],
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
   fullStructure: any;

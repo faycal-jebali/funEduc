@@ -14,11 +14,10 @@ import { ExerciceSectionService } from 'src/app/shared/services/exercices-sectio
 import { ExerciceService } from 'src/app/shared/services/exercices.service';
 
 @Component({
-  selector: 'app-exercice-form',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './exercice-form.component.html',
-  styleUrls: ['./exercice-form.component.css'],
+    selector: 'app-exercice-form',
+    imports: [CommonModule, ReactiveFormsModule],
+    templateUrl: './exercice-form.component.html',
+    styleUrls: ['./exercice-form.component.css']
 })
 export class ExerciceFormComponent implements OnInit {
   exerciceForm: FormGroup;

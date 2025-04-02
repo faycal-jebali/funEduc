@@ -9,10 +9,9 @@ import {
 } from 'src/app/shared/mocks/global.mock';
 
 @Component({
-  selector: 'app-subjects-list',
-  standalone: true,
-  imports: [CommonModule, RouterModule],
-  template: `
+    selector: 'app-subjects-list',
+    imports: [CommonModule, RouterModule],
+    template: `
     <h2>Matières de la classe {{ classId }}</h2>
     <ul class="nav-menu">
       <li *ngFor="let subject of subjects">
@@ -42,7 +41,7 @@ import {
         </ul>
       </li>
     </ul>
-  `,
+  `
 })
 export class SubjectsListComponent {
   classId: string | null;

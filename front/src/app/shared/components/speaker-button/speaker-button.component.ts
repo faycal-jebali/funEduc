@@ -3,11 +3,10 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-speaker-button',
-  standalone: true,
-  imports: [CommonModule, MatIconModule],
-  templateUrl: './speaker-button.component.html',
-  styleUrls: ['./speaker-button.component.css'],
+    selector: 'app-speaker-button',
+    imports: [CommonModule, MatIconModule],
+    templateUrl: './speaker-button.component.html',
+    styleUrls: ['./speaker-button.component.css']
 })
 export class SpeakerButtonComponent {
   @Input() text = '';

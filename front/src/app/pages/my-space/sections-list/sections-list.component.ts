@@ -8,11 +8,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 
 @Component({
-  selector: 'app-sections-list',
-  standalone: true,
-  imports: [CommonModule, MatTableModule, MatButtonModule, MatIconModule],
-  templateUrl: './sections-list.component.html',
-  styleUrls: ['./sections-list.component.css'],
+    selector: 'app-sections-list',
+    imports: [CommonModule, MatTableModule, MatButtonModule, MatIconModule],
+    templateUrl: './sections-list.component.html',
+    styleUrls: ['./sections-list.component.css']
 })
 export class SectionsListComponent {
   private exerciceSectionService = inject(ExerciceSectionService);

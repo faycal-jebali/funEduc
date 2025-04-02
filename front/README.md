@@ -33,6 +33,11 @@ ng build:prod
 
 ngh --dir=dist
 
+# with angular 19 & SSR
+
+// TODO /browser/browser/
+npx angular-cli-ghpages --dir=dist/browser/browser/ --branch=gh-pages
+
 ## Deploiement VERCEL BACK
 
 vercel

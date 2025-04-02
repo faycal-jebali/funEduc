@@ -5,11 +5,10 @@ import { Howl } from 'howler';
 import { Exercice } from '../../interfaces/exercice';
 
 @Component({
-  selector: 'app-fill-the-blanks',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './fill-the-blanks.component.html',
-  styleUrls: ['./fill-the-blanks.component.css'],
+    selector: 'app-fill-the-blanks',
+    imports: [CommonModule, ReactiveFormsModule],
+    templateUrl: './fill-the-blanks.component.html',
+    styleUrls: ['./fill-the-blanks.component.css']
 })
 export class FillTheBlanksComponent {
   exerciceForm!: FormGroup;

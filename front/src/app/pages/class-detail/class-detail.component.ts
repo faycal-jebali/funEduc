@@ -4,13 +4,12 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-class-detail',
-  standalone: true,
-  imports: [CommonModule, RouterModule],
-  template: `
+    selector: 'app-class-detail',
+    imports: [CommonModule, RouterModule],
+    template: `
     <h2>Détails de la Classe {{ classId }}</h2>
     <a [routerLink]="['/classes', classId, 'subjects']">Voir les matières</a>
-  `,
+  `
 })
 export class ClassDetailComponent {
   classId: string | null;

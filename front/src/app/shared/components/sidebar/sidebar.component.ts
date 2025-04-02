@@ -10,19 +10,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 
 @Component({
-  selector: 'app-sidebar',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatSidenavModule,
-    MatButtonModule,
-    MatListModule,
-    RouterModule,
-    MatIconModule,
-    MatBadgeModule,
-  ],
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss'],
+    selector: 'app-sidebar',
+    imports: [
+        CommonModule,
+        MatSidenavModule,
+        MatButtonModule,
+        MatListModule,
+        RouterModule,
+        MatIconModule,
+        MatBadgeModule,
+    ],
+    templateUrl: './sidebar.component.html',
+    styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
   isSidebarOpen = false;

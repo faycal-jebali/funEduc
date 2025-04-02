@@ -15,28 +15,27 @@ import { MatCardModule } from '@angular/material/card';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @Component({
-  selector: 'app-dictation',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    MatIconModule,
-    SpeakerButtonComponent,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCardModule,
-    FlexLayoutModule,
-  ],
-  templateUrl: './dictation.component.html',
-  styleUrls: ['./dictation.component.css'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => DictationComponent),
-      multi: true,
-    },
-  ],
+    selector: 'app-dictation',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MatIconModule,
+        SpeakerButtonComponent,
+        MatFormFieldModule,
+        MatInputModule,
+        MatCardModule,
+        FlexLayoutModule,
+    ],
+    templateUrl: './dictation.component.html',
+    styleUrls: ['./dictation.component.css'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => DictationComponent),
+            multi: true,
+        },
+    ]
 })
 export class DictationComponent implements ControlValueAccessor {
   @Input() phrase: string = 'test'; // Phrase dictée

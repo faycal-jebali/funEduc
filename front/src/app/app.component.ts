@@ -5,9 +5,10 @@ import { ExerciceService } from './shared/services/exercices.service';
 import { ExerciceSectionService } from './shared/services/exercices-section.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css'],
+    standalone: false
 })
 export class AppComponent {
   constructor(

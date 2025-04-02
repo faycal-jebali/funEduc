@@ -10,24 +10,20 @@ import { CommonModule } from '@angular/common'; // Import pour CommonModule
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
-  selector: 'app-falling-words',
-  standalone: true, // Déclare le composant comme standalone
-  imports: [CommonModule], // Ajoute CommonModule
-  templateUrl: './falling-words.component.html',
-  styleUrls: ['./falling-words.component.css'],
-  animations: [
-    trigger('fallingAnimation', [
-      transition('* => *', [
-        animate(
-          '4s ease-in',
-          keyframes([
-            style({ transform: 'translateY(-100%)', offset: 0 }),
-            style({ transform: 'translateY(500px)', offset: 1 }),
-          ])
-        ),
-      ]),
-    ]),
-  ],
+    selector: 'app-falling-words', // Déclare le composant comme standalone
+    imports: [CommonModule], // Ajoute CommonModule
+    templateUrl: './falling-words.component.html',
+    styleUrls: ['./falling-words.component.css'],
+    animations: [
+        trigger('fallingAnimation', [
+            transition('* => *', [
+                animate('4s ease-in', keyframes([
+                    style({ transform: 'translateY(-100%)', offset: 0 }),
+                    style({ transform: 'translateY(500px)', offset: 1 }),
+                ])),
+            ]),
+        ]),
+    ]
 })
 export class FallingWordsComponent {
   wordsFeminin = ['chatte', 'fille', 'voiture', 'maison'];

@@ -14,7 +14,6 @@ import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-fill-the-blanks-by-type',
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,

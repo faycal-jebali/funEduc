@@ -4,11 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FullStructureSubjectsService } from 'src/app/shared/services/full-structutre-subjects';
 
 @Component({
-  selector: 'app-classe-detail',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './classe-detail.component.html',
-  styleUrls: ['./classe-detail.component.css'],
+    selector: 'app-classe-detail',
+    imports: [CommonModule],
+    templateUrl: './classe-detail.component.html',
+    styleUrls: ['./classe-detail.component.css']
 })
 export class ClasseDetailComponent {
   fullStructure: any;

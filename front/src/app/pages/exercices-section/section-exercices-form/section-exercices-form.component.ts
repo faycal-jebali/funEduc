@@ -22,19 +22,18 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-section-exercice-form',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatIconModule,
-  ],
-  templateUrl: './section-exercices-form.component.html',
-  styleUrls: ['./section-exercices-form.component.css'],
+    selector: 'app-section-exercice-form',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatSelectModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatIconModule,
+    ],
+    templateUrl: './section-exercices-form.component.html',
+    styleUrls: ['./section-exercices-form.component.css']
 })
 export class SectionExercicesFormComponent implements OnInit {
   form: FormGroup;

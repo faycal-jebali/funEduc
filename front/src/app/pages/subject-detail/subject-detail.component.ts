@@ -8,10 +8,9 @@ import { ExerciceSectionItem } from 'src/app/shared/interfaces/exercices.new';
 import { ExerciceSectionService } from 'src/app/shared/services/exercices-section.service';
 
 @Component({
-  selector: 'app-subject-detail',
-  standalone: true,
-  imports: [CommonModule, MatTabsModule, FillTheBlanksByTypeComponent],
-  templateUrl: 'subject-detail.component.html',
+    selector: 'app-subject-detail',
+    imports: [CommonModule, MatTabsModule, FillTheBlanksByTypeComponent],
+    templateUrl: 'subject-detail.component.html'
 })
 export class SubjectDetailComponent implements OnInit {
   classId: string | null;
