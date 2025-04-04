@@ -1,3 +1,4 @@
+<h2>Leçon > Catégorie > sous catégorie</h2>
 <mat-tab-group>
   <mat-tab
     *ngFor="let sectionItem of exercicesSectionList; let index = index"
@@ -10,3 +11,5 @@
     ></app-fill-the-blanks-by-type>
   </mat-tab>
 </mat-tab-group>
+
+<p *ngIf="exercicesSectionList.length <= 0">Liste d'exercices vide</p>

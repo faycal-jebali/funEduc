@@ -43,3 +43,32 @@ body {
 mat-sidenav-container {
   padding-bottom: 100px !important;
 }
+
+mat-sidenav {
+  height: 100%;
+  overflow: hidden;
+  padding: 0;
+  .mat-drawer-inner-container {
+    width: 100%;
+    padding: 20px 30px 50px 20px;
+    box-sizing: border-box;
+  }
+}
+
+.list-style-none {
+  list-style: none;
+}
+
+.loading-container {
+  position: fixed;
+  background: rgba(255, 255, 255, 0.2);
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+}

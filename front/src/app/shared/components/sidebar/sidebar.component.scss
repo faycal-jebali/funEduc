@@ -6,10 +6,6 @@ mat-sidenav {
   width: 250px; /* Largeur de la sidebar */
 }
 
-mat-sidenav-content {
-  margin-left: 250px; /* Décalage du contenu principal lorsque la sidebar est ouverte */
-}
-
 @media (max-width: 768px) {
   mat-sidenav {
     width: 200px;
@@ -20,16 +16,15 @@ mat-sidenav-content {
   }
 }
 
-/*.sidenav-container {
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-}
-*/
 .sidenav {
   width: 250px;
   background-color: #fafafa;
-  padding: 15px;
+  padding: 0;
+  a {
+    display: flex;
+    cursor: pointer;
+    width: 100%;
+  }
 }
 
 .menu {
@@ -70,31 +65,73 @@ ul {
   padding-left: 15px;
 }
 
-.class-0 .mdc-button {
+.class-0 > .mdc-button {
   background-color: #f28f8f !important; /* Exemple pour le premier niveau */
 }
 
-.class-1 .mdc-button {
+.class-1 > .mdc-button {
   background-color: #f2c94c !important; /* Exemple pour une autre classe */
 }
 
 /* Pour les autres niveaux */
-.class-2 .mdc-button {
+.class-2 > .mdc-button {
   background-color: #6fcf97 !important;
 }
 
-.class-3 .mdc-button {
+.class-3 > .mdc-button {
   background-color: #56ccf2 !important;
 }
 
-.class-4 .mdc-button {
+.class-4 > .mdc-button {
   background-color: #ff6347 !important;
 }
 
-.class-5 .mdc-button {
+.class-5 > .mdc-button {
   background-color: #f28f8f !important; /* Exemple : couleur pour la 6e classe */
 }
 
 .mat-sidenav-content {
   padding: 20px;
+}
+
+.class-0 {
+  border: 1px solid #f28f8f;
+  padding: 4px;
+  border-radius: 7px;
+}
+
+.class-1 {
+  border: 1px solid #f2c94c;
+  padding: 4px;
+  border-radius: 7px;
+}
+
+.class-2 {
+  border: 1px solid #6fcf97;
+  padding: 4px;
+  border-radius: 7px;
+}
+
+.class-3 {
+  border: 1px solid #56ccf2;
+  padding: 4px;
+  border-radius: 7px;
+}
+
+.class-4 {
+  border: 1px solid #ff6347;
+  padding: 4px;
+  border-radius: 7px;
+}
+
+.class-5 {
+  border: 1px solid #f28f8f;
+  padding: 4px;
+  border-radius: 7px;
+}
+
+.class-6 {
+  border: 1px solid #eee;
+  padding: 4px;
+  border-radius: 7px;
 }

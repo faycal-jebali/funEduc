@@ -5,24 +5,24 @@ import { ExerciceService } from './shared/services/exercices.service';
 import { ExerciceSectionService } from './shared/services/exercices-section.service';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css'],
-    standalone: false
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
+  standalone: false,
 })
 export class AppComponent {
   constructor(
     private readonly exercicesService: ExerciceService,
     private readonly exerciceSectionService: ExerciceSectionService
   ) {
-    this.exercicesService.getExercices().subscribe({
-      next: (data) => {
-        console.log('all exercices data : ', data);
-      },
-      error: (error) => {
-        console.log('all exercices error : ', error);
-      },
-    });
+    // this.exercicesService.getExercices().subscribe({
+    //   next: (data) => {
+    //     console.log('all exercices data : ', data);
+    //   },
+    //   error: (error) => {
+    //     console.log('all exercices error : ', error);
+    //   },
+    // });
 
     this.exerciceSectionService.getExercicesBySection().subscribe({
       next: (data) => {

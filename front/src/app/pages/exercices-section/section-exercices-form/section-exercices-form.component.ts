@@ -22,18 +22,18 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
 @Component({
-    selector: 'app-section-exercice-form',
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        MatInputModule,
-        MatSelectModule,
-        MatButtonModule,
-        MatFormFieldModule,
-        MatIconModule,
-    ],
-    templateUrl: './section-exercices-form.component.html',
-    styleUrls: ['./section-exercices-form.component.css']
+  selector: 'app-section-exercice-form',
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+  ],
+  templateUrl: './section-exercices-form.component.html',
+  styleUrls: ['./section-exercices-form.component.css'],
 })
 export class SectionExercicesFormComponent implements OnInit {
   form: FormGroup;
@@ -63,10 +63,10 @@ export class SectionExercicesFormComponent implements OnInit {
         title: ['', Validators.required],
         description: [''],
         created_by: [UserRole.ADMIN],
-        class_id: ['', Validators.required],
-        lesson_id: ['', Validators.required],
-        category_id: ['', Validators.required],
-        subLesson_id: ['', Validators.required],
+        class_id: [null, Validators.required],
+        lesson_id: [null],
+        category_id: [null],
+        subLesson_id: [null],
       }),
       exercices: this.fb.array([]),
     });
@@ -124,8 +124,10 @@ export class SectionExercicesFormComponent implements OnInit {
 
         // Remplissage des exercices
         this.exercices.clear();
-        data.exercices.forEach((exercice: any) => {
-          this.exercices.push(this.createExerciceForm(exercice));
+        data.exercices.forEach((exerciceForm: any) => {
+          this.exercices.push(this.createExerciceForm(exerciceForm));
+          const index = this.exercices.length - 1;
+          this.handleQuestionVisibility(index);
         });
       },
       error: (err) => {
@@ -135,6 +137,9 @@ export class SectionExercicesFormComponent implements OnInit {
   }
 
   onClassChange(): void {
+    const lessonIdControl = this.form.get(['section', 'lesson_id']);
+    const categoryIdControl = this.form.get(['section', 'category_id']);
+    const subLessonIdControl = this.form.get(['section', 'subLesson_id']);
     this.form
       .get('section.class_id')
       ?.valueChanges.pipe(untilDestroyed(this))
@@ -143,6 +148,17 @@ export class SectionExercicesFormComponent implements OnInit {
         this.selectedClass = this.fullStructure.find(
           (classe) => classe.id === this.selectedClassId
         );
+
+        if (
+          this.selectedClass?.children &&
+          this.selectedClass?.children?.length > 0
+        ) {
+          lessonIdControl?.setValidators([Validators.required]);
+        } else {
+          lessonIdControl?.clearValidators();
+          categoryIdControl?.clearValidators();
+          subLessonIdControl?.clearValidators();
+        }
         this.selectedCourseId = '';
         this.selectedCategoryId = '';
         this.selectedCourse = null;
@@ -151,6 +167,8 @@ export class SectionExercicesFormComponent implements OnInit {
   }
 
   onLessonChange(): void {
+    const categoryIdControl = this.form.get(['section', 'category_id']);
+    const subLessonIdControl = this.form.get(['section', 'subLesson_id']);
     this.form
       .get('section.lesson_id')
       ?.valueChanges.pipe(untilDestroyed(this))
@@ -159,12 +177,24 @@ export class SectionExercicesFormComponent implements OnInit {
         this.selectedCourse = this.selectedClass?.children.find(
           (course: any) => course.id === this.selectedCourseId
         );
+
+        if (
+          this.selectedClass?.children &&
+          this.selectedClass?.children?.length > 0
+        ) {
+          categoryIdControl?.setValidators([Validators.required]);
+        } else {
+          categoryIdControl?.clearValidators();
+          subLessonIdControl?.clearValidators();
+        }
         this.selectedCategoryId = '';
         this.selectedCategory = null;
       });
   }
 
   onCategoryChange(): void {
+    const categoryIdControl = this.form.get(['section', 'category_id']);
+    const subLessonIdControl = this.form.get(['section', 'subLesson_id']);
     this.form
       .get('section.category_id')
       ?.valueChanges.pipe(untilDestroyed(this))
@@ -173,6 +203,15 @@ export class SectionExercicesFormComponent implements OnInit {
         this.selectedCategory = this.selectedCourse?.children.find(
           (category: any) => category.id === this.selectedCategoryId
         );
+
+        if (
+          this.selectedCategory?.children &&
+          this.selectedCategory?.children?.length > 0
+        ) {
+          subLessonIdControl?.setValidators([Validators.required]);
+        } else {
+          categoryIdControl?.clearValidators();
+        }
       });
   }
 
@@ -181,7 +220,10 @@ export class SectionExercicesFormComponent implements OnInit {
   }
 
   addExercice() {
-    this.exercices.push(this.createExerciceForm());
+    const exerciceForm = this.createExerciceForm();
+    this.exercices.push(exerciceForm);
+    const index = this.exercices.length - 1;
+    this.handleQuestionVisibility(index);
   }
 
   removeExercice(index: number) {
@@ -192,7 +234,7 @@ export class SectionExercicesFormComponent implements OnInit {
     return this.fb.group({
       type: [exerciceData.type || 'fill-in-the-blank', Validators.required],
       consigne: [exerciceData.consigne || ''],
-      question: [exerciceData.question || '', Validators.required],
+      question: [exerciceData.question || ''],
       correct_answer: [exerciceData.correct_answer || '', Validators.required],
       options: this.fb.array(
         exerciceData.options
@@ -209,6 +251,42 @@ export class SectionExercicesFormComponent implements OnInit {
     return this.exercices.at(exerciceIndex).get('options') as FormArray;
   }
 
+  // Vérifier si "question" doit être visible ou non selon le type
+  handleQuestionVisibility(exerciceIndex: number) {
+    console.log('exerciceForm: ', exerciceIndex);
+    console.log(
+      'exerciceForm.get(type): ',
+      this.exercices.at(exerciceIndex).get('type')?.value
+    );
+    setTimeout(() => {
+      this.exercices
+        .at(exerciceIndex)
+        .get('type')
+        ?.valueChanges.subscribe((selectedType) => {
+          console.log('selectedType : ', selectedType);
+
+          const questionControl = this.exercices
+            .at(exerciceIndex)
+            .get('question');
+          console.log('questionControl : ', questionControl);
+
+          if (!questionControl) {
+            return;
+          }
+          if (selectedType !== 'dictation') {
+            questionControl.setValidators([Validators.required]); // Rendre obligatoire
+            questionControl.enable(); // Activer
+          } else {
+            questionControl.clearValidators(); // Supprimer la validation
+            questionControl.disable(); // Désactiver
+            questionControl.setValue(''); // Réinitialiser
+          }
+
+          questionControl.updateValueAndValidity();
+        });
+    }, 50);
+  }
+
   addOption(exerciceIndex: number) {
     this.getOptions(exerciceIndex).push(
       new FormControl('', Validators.required)
@@ -220,6 +298,8 @@ export class SectionExercicesFormComponent implements OnInit {
   }
 
   submit() {
+    console.log('Form : ', this.form);
+
     if (this.form.valid) {
       if (this.isEditing && this.sectionId) {
         this.updateSection(this.sectionId, this.form.value);

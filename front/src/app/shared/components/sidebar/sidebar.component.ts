@@ -3,28 +3,38 @@ import { Component, OnInit } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
-import { Router, RouterModule } from '@angular/router';
+import {
+  NavigationCancel,
+  NavigationEnd,
+  NavigationError,
+  NavigationStart,
+  Router,
+  RouterModule,
+} from '@angular/router';
 import { CategoryItem, subjectsList } from '../../mocks/global.mock';
 import { FullStructureSubjectsService } from '../../services/full-structutre-subjects';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
-    selector: 'app-sidebar',
-    imports: [
-        CommonModule,
-        MatSidenavModule,
-        MatButtonModule,
-        MatListModule,
-        RouterModule,
-        MatIconModule,
-        MatBadgeModule,
-    ],
-    templateUrl: './sidebar.component.html',
-    styleUrls: ['./sidebar.component.scss']
+  selector: 'app-sidebar',
+  imports: [
+    CommonModule,
+    MatSidenavModule,
+    MatButtonModule,
+    MatListModule,
+    RouterModule,
+    MatIconModule,
+    MatBadgeModule,
+    MatProgressSpinnerModule,
+  ],
+  templateUrl: './sidebar.component.html',
+  styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
   isSidebarOpen = false;
+  isLoading = false;
   title = 'front';
   classId = 2;
   subjects: CategoryItem[] = subjectsList;
@@ -35,7 +45,21 @@ export class SidebarComponent implements OnInit {
   constructor(
     private readonly fullStructureSubjectsService: FullStructureSubjectsService,
     private readonly router: Router
-  ) {}
+  ) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.isLoading = true; // Afficher le loader au début de la navigation
+      } else if (
+        event instanceof NavigationEnd ||
+        event instanceof NavigationCancel ||
+        event instanceof NavigationError
+      ) {
+        setTimeout(() => {
+          this.isLoading = false; // Cacher le loader après la fin du chargement
+        }, 1000);
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.fullStructureSubjectsService.getFullStructureSubjects().subscribe({
@@ -76,6 +100,7 @@ export class SidebarComponent implements OnInit {
   isMenuOpen(id: number): boolean {
     return this.openMenus.has(id);
   }
+
   goToClassDetail(id: string) {
     this.router.navigate(['/classes', id]);
   }

@@ -248,9 +248,9 @@ export default async function handler(req, res) {
         !section.title ||
         !section.created_by ||
         !section.class_id ||
-        !section.lesson_id ||
-        !section.category_id ||
-        !section.subLesson_id ||
+        // !section.lesson_id ||
+        // !section.category_id ||
+        // !section.subLesson_id ||
         !Array.isArray(exercices) ||
         exercices.length === 0
       ) {

@@ -8,7 +8,7 @@
       <span class="exercice-numero">{{ i + 1 }}</span>
       <div class="w-100">
         <div class="exercice-renseignement">{{ ex.consigne }}</div>
-        <div *ngIf="ex.type !== 'matching' && ex.question">
+        <div *ngIf="ex.type !== 'matching'">
           <!--Dictation-->
           <ng-container *ngIf="ex.type === 'dictation'">
             <app-dictation
@@ -18,7 +18,7 @@
           </ng-container>
 
           <!--fill-in-the-blank-->
-          <ng-container *ngIf="ex.type === 'fill-in-the-blank'">
+          <ng-container *ngIf="ex.type === 'fill-in-the-blank' && ex.question">
             <p class="instruction">
               Sélectionnez la réponse qui complète correctement la phrase
               suivante.
@@ -33,7 +33,7 @@
           </ng-container>
 
           <!--multiple-choice-->
-          <ng-container *ngIf="ex.type === 'multiple-choice'">
+          <ng-container *ngIf="ex.type === 'multiple-choice' && ex.question">
             <p class="instruction">
               Choisissez la bonne réponse parmi les propositions suivantes.
             </p>
