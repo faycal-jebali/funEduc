@@ -8,15 +8,16 @@ import { ExerciceSectionItem } from 'src/app/shared/interfaces/exercices.new';
 import { ExerciceSectionService } from 'src/app/shared/services/exercices-section.service';
 
 @Component({
-    selector: 'app-subject-detail',
-    imports: [CommonModule, MatTabsModule, FillTheBlanksByTypeComponent],
-    templateUrl: 'subject-detail.component.html'
+  selector: 'app-subject-detail',
+  imports: [CommonModule, MatTabsModule, FillTheBlanksByTypeComponent],
+  templateUrl: 'subject-detail.component.html',
 })
 export class SubjectDetailComponent implements OnInit {
   classId: string | null;
   categoryId: string | null;
   lessonId: string | null;
   subLessonId: string | null;
+  moduleId: string | null;
   exercicesSectionList: ExerciceSectionItem[] = [];
 
   constructor(
@@ -27,6 +28,7 @@ export class SubjectDetailComponent implements OnInit {
     this.categoryId = this.route.snapshot.paramMap.get('categoryId');
     this.lessonId = this.route.snapshot.paramMap.get('lessonId');
     this.subLessonId = this.route.snapshot.paramMap.get('subLessonId');
+    this.moduleId = this.route.snapshot.paramMap.get('moduleId');
   }
 
   ngOnInit(): void {
@@ -37,7 +39,12 @@ export class SubjectDetailComponent implements OnInit {
           this.categoryId = this.route.snapshot.paramMap.get('categoryId');
           this.lessonId = this.route.snapshot.paramMap.get('lessonId');
           this.subLessonId = this.route.snapshot.paramMap.get('subLessonId');
-          const filterId = this.subLessonId || this.categoryId || this.lessonId;
+          this.moduleId = this.route.snapshot.paramMap.get('moduleId');
+          const filterId =
+            this.subLessonId ||
+            this.categoryId ||
+            this.lessonId ||
+            this.moduleId;
           return this.exerciceSectionService.getExercicesBySection(
             this.classId,
             filterId

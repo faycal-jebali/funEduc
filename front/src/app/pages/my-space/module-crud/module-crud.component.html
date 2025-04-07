@@ -1,0 +1,38 @@
+<mat-card>
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <mat-form-field class="w-full">
+      <mat-label>Titre</mat-label>
+      <input matInput formControlName="title" />
+    </mat-form-field>
+
+    <mat-form-field class="w-full">
+      <mat-label>Parent</mat-label>
+      <mat-select formControlName="parent_id">
+        <mat-option [value]="null">Aucun (module racine)</mat-option>
+        <mat-option *ngFor="let m of modulesFlat" [value]="m.id">
+          {{ m.title }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">
+      {{ selectedModuleId ? "Mettre à jour" : "Créer" }}
+    </button>
+    <button mat-button type="button" (click)="reset()">Réinitialiser</button>
+  </form>
+</mat-card>
+
+<mat-card *ngFor="let m of modulesFlat" class="mt-4">
+  <div class="flex justify-between items-center">
+    <div>
+      <strong>{{ m.title }}</strong>
+      <!-- <small *ngIf="m.parent_id"> (enfant)</small> -->
+    </div>
+    <div>
+      <button mat-button (click)="edit(m)">✏️ Modifier</button>
+      <button mat-button color="warn" (click)="delete(m.id)">
+        🗑️ Supprimer
+      </button>
+    </div>
+  </div>
+</mat-card>

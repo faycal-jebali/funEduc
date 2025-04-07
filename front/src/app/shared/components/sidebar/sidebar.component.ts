@@ -16,6 +16,8 @@ import { FullStructureSubjectsService } from '../../services/full-structutre-sub
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ModulesHierarchyService } from '../../services/modules-hierarchy.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -40,11 +42,14 @@ export class SidebarComponent implements OnInit {
   subjects: CategoryItem[] = subjectsList;
 
   fullStructure: any;
+  newfullStructure: any;
 
   openMenus: Set<number> = new Set();
   constructor(
     private readonly fullStructureSubjectsService: FullStructureSubjectsService,
-    private readonly router: Router
+    private readonly modulesHierarchyService: ModulesHierarchyService,
+    private readonly router: Router,
+    protected readonly authService: AuthService
   ) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
@@ -62,11 +67,22 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getModulesHierarchy();
+
     this.fullStructureSubjectsService.getFullStructureSubjects().subscribe({
       next: (data) => {
         // this.fullStructure = data;
         this.fullStructure = this.sortItems(data);
         console.log('Structure Data : ', data);
+      },
+    });
+  }
+
+  getModulesHierarchy() {
+    this.modulesHierarchyService.getFullStructure().subscribe({
+      next: (data) => {
+        console.log('***NEW Structure Data : ', data);
+        this.newfullStructure = this.sortItems(data);
       },
     });
   }
@@ -101,7 +117,16 @@ export class SidebarComponent implements OnInit {
     return this.openMenus.has(id);
   }
 
-  goToClassDetail(id: string) {
+  goToClassDetail(id: string): void {
     this.router.navigate(['/classes', id]);
+  }
+
+  login(): void {
+    this.router.navigate(['/login']);
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.login();
   }
 }

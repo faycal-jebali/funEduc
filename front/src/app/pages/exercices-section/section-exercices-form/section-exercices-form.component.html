@@ -1,12 +1,11 @@
 <div class="section-exercice-container">
-  <pre>{{ form.errors | json }}</pre>
   <h1 *ngIf="!isEditing">Créer une Section et ses Exercices</h1>
   <h1 *ngIf="isEditing">Modifier une Section et ses Exercices</h1>
   <form [formGroup]="form" (ngSubmit)="submit()">
     <!-- Formulaire de la section -->
     <h2 class="primary-color">Section</h2>
     <div formGroupName="section" class="grid-form">
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Titre de la Section :</mat-label>
         <input matInput formControlName="title" type="text" />
         <mat-error
@@ -19,7 +18,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Classes :</mat-label>
         <mat-select formControlName="class_id">
           <mat-option *ngFor="let course of courses" [value]="course.id">
@@ -28,7 +27,12 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <app-module-selector
+        [modules]="selectedModule"
+        formControlName="module_id"
+      ></app-module-selector>
+
+      <mat-form-field appearance="outline">
         <mat-label>Leçon :</mat-label>
         <mat-select formControlName="lesson_id">
           <mat-option
@@ -40,7 +44,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Catégorie :</mat-label>
         <mat-select formControlName="category_id">
           <mat-option
@@ -52,7 +56,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Sous-Leçon :</mat-label>
         <mat-select formControlName="subLesson_id">
           <mat-option
@@ -73,7 +77,7 @@
         La leçon est requise.
       </mat-error>
 
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="outline">
         <mat-label>Description :</mat-label>
         <textarea matInput formControlName="description"></textarea>
       </mat-form-field>
@@ -94,7 +98,7 @@
           </button>
         </h3>
         <div class="grid-form">
-          <mat-form-field appearance="fill">
+          <mat-form-field appearance="outline">
             <mat-label>Type :</mat-label>
             <mat-select id="type-{{ i }}" formControlName="type">
               <mat-option value="fill-in-the-blank"
@@ -107,7 +111,7 @@
             </mat-select>
           </mat-form-field>
 
-          <mat-form-field appearance="fill">
+          <mat-form-field appearance="outline">
             <mat-label>Consigne :</mat-label>
             <input
               matInput
@@ -116,7 +120,7 @@
               type="text"
             />
           </mat-form-field>
-          <mat-form-field appearance="fill">
+          <mat-form-field appearance="outline">
             <mat-label>Question :</mat-label>
             <input
               matInput
@@ -126,7 +130,7 @@
             />
           </mat-form-field>
 
-          <mat-form-field appearance="fill">
+          <mat-form-field appearance="outline">
             <mat-label>Réponse Correcte :</mat-label>
             <input
               matInput
@@ -147,7 +151,7 @@
             <mat-label>Options :</mat-label>
             <div formArrayName="options">
               <div *ngFor="let option of getOptions(i).controls; let j = index">
-                <mat-form-field appearance="fill">
+                <mat-form-field appearance="outline">
                   <input matInput [formControlName]="j" type="text" />
                 </mat-form-field>
                 <button mat-icon-button (click)="removeOption(i, j)">
@@ -165,7 +169,7 @@
             </button>
           </div>
 
-          <mat-form-field appearance="fill">
+          <mat-form-field appearance="outline">
             <mat-label>Difficulté :</mat-label>
             <mat-select id="difficulty-{{ i }}" formControlName="difficulty">
               <mat-option value="easy">Facile</mat-option>
@@ -174,7 +178,7 @@
             </mat-select>
           </mat-form-field>
 
-          <mat-form-field appearance="fill">
+          <mat-form-field appearance="outline">
             <mat-label>Explication :</mat-label>
             <textarea
               matInput

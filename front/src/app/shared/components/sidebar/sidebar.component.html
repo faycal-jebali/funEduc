@@ -1,5 +1,16 @@
 <!-- Toggle Button -->
-<button mat-flat-button (click)="toggleSidebar()">Menu</button>
+<div class="d-flex align-items-center flex-wrap justify-between gap-2">
+  <button mat-flat-button (click)="toggleSidebar()">Menu</button>
+  <div *ngIf="authService.isAuthenticated(); else loginTemplate">
+    <button mat-flat-button class="menu-button" (click)="logout()">
+      Logout
+    </button>
+  </div>
+
+  <ng-template #loginTemplate>
+    <button mat-flat-button class="menu-button" (click)="login()">Login</button>
+  </ng-template>
+</div>
 
 <!-- Sidebar Container with Angular Material -->
 <mat-sidenav-container class="sidenav-container">
@@ -12,7 +23,7 @@
     <h2>Les Classes</h2>
     <h3>Primaire & Collège</h3>
     <ul class="menu">
-      <ng-container *ngFor="let class of fullStructure; let i = index">
+      <ng-container *ngFor="let class of newfullStructure; let i = index">
         <li class="menu-item" [ngClass]="'class-' + i">
           <ng-container *ngIf="class.children && class.children.length > 0">
             <button
@@ -63,11 +74,7 @@
                                     [routerLink]="[
                                       '/classes',
                                       class.id,
-                                      'lesson',
-                                      lesson.id,
-                                      'category',
-                                      category.id,
-                                      'sublesson',
+                                      'module',
                                       sublesson.id
                                     ]"
                                   >
@@ -89,9 +96,7 @@
                               [routerLink]="[
                                 '/classes',
                                 class.id,
-                                'lesson',
-                                lesson.id,
-                                'category',
+                                'module',
                                 category.id
                               ]"
                             >
@@ -107,7 +112,7 @@
                   >
                     <a
                       mat-flat-button
-                      [routerLink]="['/classes', class.id, 'lesson', lesson.id]"
+                      [routerLink]="['/classes', class.id, 'module', lesson.id]"
                       >{{ lesson.title }}</a
                     >
                   </ng-container>
@@ -133,6 +138,12 @@
       >
       <a mat-flat-button href="#" [routerLink]="['/my-space/sections']"
         >Gérer les sections</a
+      >
+      <a mat-flat-button href="#" [routerLink]="['/my-space/modules']"
+        >Gérer les modules</a
+      >
+      <a mat-flat-button href="#" [routerLink]="['/my-space/classes']"
+        >Gérer les classes</a
       >
     </mat-nav-list>
   </mat-sidenav>

@@ -47,6 +47,12 @@ const exerciceTable = "exercices_funeduc";
  *         schema:
  *           type: string
  *         description: Filtrer par classe.
+ *       - name: module_id
+ *         in: query
+ *         required: false
+ *         schema:
+ *           type: string
+ *         description: Filtrer par module.
  *       - name: category
  *         in: query
  *         required: false
@@ -248,6 +254,7 @@ export default async function handler(req, res) {
         !section.title ||
         !section.created_by ||
         !section.class_id ||
+        !section.module_id ||
         // !section.lesson_id ||
         // !section.category_id ||
         // !section.subLesson_id ||
@@ -268,6 +275,7 @@ export default async function handler(req, res) {
             title: section.title,
             description: section.description,
             class_id: section.class_id,
+            module_id: section.module_id,
             lesson_id: section.lesson_id,
             category_id: section.category_id,
             subLesson_id: section.subLesson_id,

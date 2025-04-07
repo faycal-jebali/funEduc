@@ -36,6 +36,7 @@ export default async function handler(req, res) {
     lesson_id,
     category_id,
     subLesson_id,
+    module_id,
     exercices:exercices_funeduc (
       id, 
       type, 
@@ -57,9 +58,10 @@ export default async function handler(req, res) {
         query = query.eq("subLesson_id", subLesson_id);
       }*/
       if (filter_id) {
-        query = query.or(
-          `subLesson_id.eq.${filter_id},category_id.eq.${filter_id},lesson_id.eq.${filter_id}`
-        );
+        // query = query.or(
+        //   `subLesson_id.eq.${filter_id},category_id.eq.${filter_id},lesson_id.eq.${filter_id}`
+        // );
+        query = query.or(`module_id.eq.${filter_id}`);
       }
 
       // Exécuter la requête

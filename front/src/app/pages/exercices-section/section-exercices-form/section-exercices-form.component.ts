@@ -19,6 +19,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { ModulesHierarchyService } from 'src/app/shared/services/modules-hierarchy.service';
+import { ModuleSelectorComponent } from 'src/app/shared/components/module-selector/module-selector.component';
+import { Observable, switchMap, tap } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -31,6 +34,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
     MatButtonModule,
     MatFormFieldModule,
     MatIconModule,
+    ModuleSelectorComponent,
   ],
   templateUrl: './section-exercices-form.component.html',
   styleUrls: ['./section-exercices-form.component.css'],
@@ -38,6 +42,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 export class SectionExercicesFormComponent implements OnInit {
   form: FormGroup;
   fullStructure: any[] = [];
+  fullModules: any[] = [];
   courses: any[] = [];
   sectionId: string | null = null;
   isEditing = false;
@@ -45,9 +50,11 @@ export class SectionExercicesFormComponent implements OnInit {
   selectedClassId: string = '';
   selectedCourseId: string = '';
   selectedCategoryId: string = '';
+  selectedModuleId: string = '';
   selectedClass: any = null;
   selectedCourse: any = null;
   selectedCategory: any = null;
+  selectedModule: any = null;
 
   private exercicesService = inject(ExerciceService);
   private exerciceSectionService = inject(ExerciceSectionService);
@@ -56,6 +63,7 @@ export class SectionExercicesFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private readonly fullStructureSubjectsService: FullStructureSubjectsService,
+    private readonly modulesHierarchyService: ModulesHierarchyService,
     private readonly activatedRoute: ActivatedRoute
   ) {
     this.form = this.fb.group({
@@ -64,16 +72,13 @@ export class SectionExercicesFormComponent implements OnInit {
         description: [''],
         created_by: [UserRole.ADMIN],
         class_id: [null, Validators.required],
+        module_id: [null], // <- AJOUT ICI
         lesson_id: [null],
         category_id: [null],
         subLesson_id: [null],
       }),
       exercices: this.fb.array([]),
     });
-
-    this.onLessonChange();
-    this.onClassChange();
-    this.onCategoryChange();
   }
 
   ngOnInit() {
@@ -81,11 +86,27 @@ export class SectionExercicesFormComponent implements OnInit {
 
     this.activatedRoute.paramMap.subscribe((params) => {
       this.sectionId = params.get('sectionId');
+      console.log('******params***** : ', params);
+
       if (this.sectionId) {
         this.isEditing = true;
         this.loadSectionData(this.sectionId);
+      } else {
+        this.getModulesHierarchy().subscribe();
       }
     });
+  }
+
+  getModulesHierarchy(): Observable<any> {
+    return this.modulesHierarchyService.getFullStructure().pipe(
+      tap((modules) => {
+        console.log('***NEW fullModules Data : ', modules);
+        this.fullModules = modules;
+        this.onLessonChange();
+        this.onClassChange();
+        this.onCategoryChange();
+      })
+    );
   }
 
   getStructureSubjects(): void {
@@ -102,52 +123,102 @@ export class SectionExercicesFormComponent implements OnInit {
 
   // Charger les données de la section en mode édition
   loadSectionData(sectionId: string) {
-    this.exerciceSectionService.getSectionWithExercices(sectionId).subscribe({
-      next: (data) => {
-        this.form.patchValue({ section: data.section });
+    this.getModulesHierarchy()
+      .pipe(
+        tap(() => console.log('Modules hiérarchie chargée')),
+        switchMap(() =>
+          this.exerciceSectionService.getSectionWithExercices(sectionId)
+        )
+      )
+      .subscribe({
+        next: (data: any) => {
+          this.handelInitFormModeEdit(data);
+        },
+        error: (error: Error) => {
+          console.error('Erreur lors du chargement de la section:', error);
+        },
+      });
 
-        // Gestion des sélections dynamiques
-        this.selectedClassId = data.section.class_id;
-        this.selectedClass = this.fullStructure.find(
-          (classe) => classe.id === this.selectedClassId
-        );
+    // this.getModulesHierarchy();
 
-        this.selectedCourseId = data.section.lesson_id;
-        this.selectedCourse = this.selectedClass?.children.find(
-          (course: any) => course.id === this.selectedCourseId
-        );
+    // this.exerciceSectionService.getSectionWithExercices(sectionId).subscribe({
+    //   next: (data) => {
+    //     this.handelInitFormModeEdit(data);
+    //   },
+    //   error: (err) => {
+    //     console.error('Erreur lors du chargement de la section:', err);
+    //   },
+    // });
+  }
 
-        this.selectedCategoryId = data.section.category_id;
-        this.selectedCategory = this.selectedCourse?.children.find(
-          (category: any) => category.id === this.selectedCategoryId
-        );
+  handelInitFormModeEdit(data: any) {
+    console.log('***DATA section : *****', data);
 
-        // Remplissage des exercices
-        this.exercices.clear();
-        data.exercices.forEach((exerciceForm: any) => {
-          this.exercices.push(this.createExerciceForm(exerciceForm));
-          const index = this.exercices.length - 1;
-          this.handleQuestionVisibility(index);
-        });
-      },
-      error: (err) => {
-        console.error('Erreur lors du chargement de la section:', err);
-      },
+    this.form.patchValue({ section: data.section });
+
+    console.log('form value : ', this.form.value);
+
+    const classId = this.form.get('section.class_id')?.value;
+    console.log('classId : ', classId);
+
+    if (classId && this.fullModules.length > 0) {
+      this.updateFilteredModules(classId); // Tu mets à jour filteredModules toi-même
+    }
+
+    // Gestion des sélections dynamiques
+    this.selectedClassId = data.section.class_id;
+    this.selectedClass = this.fullStructure.find(
+      (classe) => classe.id === this.selectedClassId
+    );
+
+    this.selectedCourseId = data.section.lesson_id;
+    this.selectedCourse = this.selectedClass?.children.find(
+      (course: any) => course.id === this.selectedCourseId
+    );
+
+    this.selectedCategoryId = data.section.category_id;
+    this.selectedCategory = this.selectedCourse?.children.find(
+      (category: any) => category.id === this.selectedCategoryId
+    );
+
+    // Remplissage des exercices
+    this.exercices.clear();
+    data.exercices.forEach((exerciceForm: any) => {
+      this.exercices.push(this.createExerciceForm(exerciceForm));
+      const index = this.exercices.length - 1;
+      this.handleQuestionVisibility(index);
     });
   }
 
+  updateFilteredModules(data: any) {
+    console.log('****updateFilteredModules*****');
+    console.log('fullModules : ', this.fullModules);
+
+    this.selectedClassId = data;
+    this.selectedClass = this.fullStructure.find(
+      (classe) => classe.id === this.selectedClassId
+    );
+
+    const selectedModuleFiltred = this.fullModules.find(
+      (classe) => classe.id === this.selectedClassId
+    ).children;
+
+    this.selectedModule = selectedModuleFiltred ? selectedModuleFiltred : [];
+  }
+
   onClassChange(): void {
+    console.log('****classe changes****');
+
     const lessonIdControl = this.form.get(['section', 'lesson_id']);
     const categoryIdControl = this.form.get(['section', 'category_id']);
     const subLessonIdControl = this.form.get(['section', 'subLesson_id']);
+    const moduleIdControl = this.form.get(['section', 'module_id']);
     this.form
       .get('section.class_id')
       ?.valueChanges.pipe(untilDestroyed(this))
       .subscribe((data) => {
-        this.selectedClassId = data;
-        this.selectedClass = this.fullStructure.find(
-          (classe) => classe.id === this.selectedClassId
-        );
+        console.log('******onClassChange subscribe******');
+        this.updateFilteredModules(data);
 
         if (
           this.selectedClass?.children &&

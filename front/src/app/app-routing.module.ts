@@ -5,6 +5,10 @@ import { FillTheBlanksComponent } from './shared/components/fill-the-blanks/fill
 import { FillTheBlanksByTypeComponent } from './shared/components/fill-the-blanks-by-type/fill-the-blanks-by-type.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { BrouillonComponent } from './pages/brouillon/brouillon.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RoleGuard } from './shared/guards/role.guard';
+import { AccessDeniedComponent } from './pages/access-denied/access-denied.component';
+import { AuthGuard } from './shared/guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -12,6 +16,7 @@ export const routes: Routes = [
   { path: 'task-by-type', component: FillTheBlanksByTypeComponent },
   { path: 'devoirs', component: HomeComponent }, // Il semble que cette route pointe vers la même page que Home ?
   { path: 'brouillon', component: BrouillonComponent }, // Il semble que cette route pointe vers la même page que Home ?
+  { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
 
   // 📌 Gestion des sections et exercices
   {
@@ -46,12 +51,28 @@ export const routes: Routes = [
   // 📌 Espace personnel
   {
     path: 'my-space',
+    canActivate: [RoleGuard],
+    data: { roles: ['admin'] },
     children: [
       {
         path: 'sections',
         loadComponent: () =>
           import('./pages/my-space/sections-list/sections-list.component').then(
             (m) => m.SectionsListComponent
+          ),
+      },
+      {
+        path: 'classes',
+        loadComponent: () =>
+          import('./pages/my-space/class-crud/class-crud.component').then(
+            (m) => m.ClassCrudComponent
+          ),
+      },
+      {
+        path: 'modules',
+        loadComponent: () =>
+          import('./pages/my-space/module-crud/module-crud.component').then(
+            (m) => m.ModuleCrudComponent
           ),
       },
     ],
@@ -77,6 +98,25 @@ export const routes: Routes = [
               import('./pages/subject-detail/subject-detail.component').then(
                 (m) => m.SubjectDetailComponent
               ),
+          },
+          {
+            path: 'module',
+            children: [
+              {
+                path: '',
+                loadComponent: () =>
+                  import('./pages/subjects-list/subjects-list.component').then(
+                    (m) => m.SubjectsListComponent
+                  ),
+              },
+              {
+                path: ':moduleId',
+                loadComponent: () =>
+                  import(
+                    './pages/subject-detail/subject-detail.component'
+                  ).then((m) => m.SubjectDetailComponent),
+              },
+            ],
           },
           {
             path: 'subjects',
@@ -124,6 +164,10 @@ export const routes: Routes = [
         ],
       },
     ],
+  },
+  {
+    path: 'access-denied',
+    component: AccessDeniedComponent, // Composant pour afficher un message d'accès refusé
   },
 
   // 📌 Page 404
