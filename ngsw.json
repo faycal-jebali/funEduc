@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1744064389658,
+  "timestamp": 1744064779509,
   "index": "/funEduc/index.html",
   "assetGroups": [
     {
@@ -113,7 +113,7 @@
     "/funEduc/favicon.ico": "e187787084ee8341276025819dc25f1030a1caba",
     "/funEduc/index.html": "4d2b695ee302e984c440eed4b3d1c6ef781b9fb6",
     "/funEduc/main-HO4YDSZL.js": "385fdbfde4f4ce1f2b8ccf45ca03186e5e5418c2",
-    "/funEduc/manifest.webmanifest": "5655de8454112e00253551eeece269a5cdf9839a",
+    "/funEduc/manifest.webmanifest": "c505d9ac356789b819129a61d1388ffc1d511be7",
     "/funEduc/polyfills-FFHMD2TL.js": "f49b49a155bc7d192db62a4c15d0a612b460a667",
     "/funEduc/styles-YMGFFCF3.css": "966435410fec4b171d590c3ee5f0c290a0124e04"
   },
